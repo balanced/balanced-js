@@ -1,0 +1,17 @@
+{
+  "name": "balanced.js",
+  "version": "0.1.0",
+  "description": "Library for tokenization of credit cards and bank accounts",
+  "repository": "git@github.com:nodesocket/balanced-js.git",
+  "author": "Balanced <dev@balancedpayments.com>",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt test --verbose",
+    "deploy": "grunt deploy"
+  },
+  "devDependencies": {
+    "grunt": "0.4.1",
+    "grunt-contrib-jshint": "0.6.3",
+    "grunt-contrib-uglify": "~0.2.2"
+  }
+}
