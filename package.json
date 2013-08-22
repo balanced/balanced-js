@@ -6,8 +6,7 @@
   "author": "Balanced <dev@balancedpayments.com>",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt test --verbose",
-    "deploy": "grunt deploy"
+    "test": "grunt test --verbose"
   },
   "devDependencies": {
     "grunt": "0.4.1",

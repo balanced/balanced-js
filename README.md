@@ -29,3 +29,8 @@ Running Tests
 or
 
     grunt test
+
+View Example HTML Page
+======================
+
+    open example/index.html

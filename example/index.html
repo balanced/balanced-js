@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Balanced.js Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 25px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Tokenize Credit Card</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Card Number</label>
+                                <div class="col-lg-5">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="4111111111111111" maxlength="16" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Expiration</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="01" maxlength="2" />
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="2013" maxlength="4" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Security Code (CSC)</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="453" maxlength="4" />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-large btn-primary pull-right">Tokenize</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Tokenize Bank Account</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Account Holder's Name</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="John Doe" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Routing Number</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="322271627" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Account Number</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="8887776665555" />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-large btn-primary pull-right">Tokenize</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../src/balanced.js"></script>
+  </body>
+</html>
