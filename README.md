@@ -26,6 +26,6 @@ Running Tests
 
     npm test
 
-    or
+or
 
     grunt test
