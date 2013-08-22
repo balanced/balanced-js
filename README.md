@@ -21,6 +21,15 @@ Installation
     npm install -g grunt-cli
     npm install
 
+Building
+========
+
+    npm build
+
+or
+
+    grunt build
+
 Running Tests
 =============
 
@@ -33,4 +42,4 @@ or
 View Example HTML Page
 ======================
 
-    open example/index.html
+    open ./example/index.html
