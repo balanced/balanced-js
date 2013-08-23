@@ -2,10 +2,6 @@
 
 Javascript client library for Balanced that tokenizes cards and bank accounts.
 
-## Documentation ##
-
-https://docs.balancedpayments.com/current/#balanced-js
-
 ## Prerequisites ##
 
     node.js (version >= 0.8.0)
@@ -31,7 +27,7 @@ https://docs.balancedpayments.com/current/#balanced-js
 
     grunt build-proxy
 
-## Cleaning ##
+## Cleaning (deletes builds) ##
 
 ##### Both JS and Proxy #####
 
@@ -47,7 +43,7 @@ https://docs.balancedpayments.com/current/#balanced-js
 
 ## Running Example ##
 
-Creates a node.js connect http web server and block, waiting for requests. Serves from `/build`.
+Creates a node.js connect http web server and blocks, waiting for requests. Serves from `/build`.
 
     grunt serve-proxy
 
