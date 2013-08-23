@@ -45,10 +45,12 @@ https://docs.balancedpayments.com/current/#balanced-js
 
     grunt clean-proxy
 
-## Running Tests ##
+## Running Example ##
 
-    grunt test
+Creates a node.js connect http web server and block, waiting for requests. Serves from `/build`.
 
-## View Example HTML Page ##
+    grunt serve-proxy
+
+Then
 
     open ./example/index.html
