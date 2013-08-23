@@ -23,8 +23,7 @@ module.exports = function(grunt) {
             },
             proxy: {
                 options: {
-                    banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
-                    wrap: 'balanced'
+                    banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n'
                 },
                 files: {
                     'build/balanced-proxy.js': [
@@ -58,15 +57,26 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        ////
-        // This tasks blocks, i.e. creates a node.js connect http server
-        ////
         connect: {
-            server: {
+            ////
+            // This tasks blocks, i.e. creates a node.js connect http server (port 3000)
+            ////
+            proxy: {
                 options: {
                     port: 3000,
                     hostname: '*',
                     base: 'build',
+                    keepalive: true
+                }
+            },
+            ////
+            // This tasks blocks, i.e. creates a node.js connect http server (port 3001)
+            ////
+            example: {
+                options: {
+                    port: 3001,
+                    hostname: '*',
+                    base: 'example',
                     keepalive: true
                 }
             }
@@ -91,6 +101,7 @@ module.exports = function(grunt) {
     grunt.registerTask('clean-js', 'purge:js');
     grunt.registerTask('clean-proxy', 'purge:proxy');
 
-    // Serve task
-    grunt.registerTask('serve-proxy', 'connect');
+    // Serve tasks
+    grunt.registerTask('serve-proxy', 'connect:proxy');
+    grunt.registerTask('serve-example', 'connect:example');
 };

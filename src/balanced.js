@@ -96,6 +96,7 @@ var cc = {
         } else {
             var uri = _marketplace_uri + '/cards';
             var payload = preparePayload(data);
+
             sendWhenReady(uri, payload, callback);
         }
     }

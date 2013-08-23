@@ -19,14 +19,28 @@ $(document).ready(function() {
         // Tokenize card
         ////
         balanced.card.create(payload, function(data, errors, status) {
-            $("#response .panel-body pre").html(JSON.stringify(data, false, 2));
+            $("#response .panel-body pre").html(JSON.stringify(data, false, 4));
             $("#response").slideDown(300);
         });
     });
 
-    $("#ba-sumit").click(function(e) {
+    $("#ba-submit").click(function(e) {
         e.preventDefault();
 
         $("#response").slideUp(200);
+
+        var payload = {
+            name: $("#ba-name").val(),
+            account_number: $("#ba-number").val(),
+            routing_number: $("#ba-routing").val()
+        };
+
+        ////
+        // Tokenize bank account
+        ////
+        balanced.bankAccount.create(payload, function(data, errors, status) {
+            $("#response .panel-body pre").html(JSON.stringify(data, false, 4));
+            $("#response").slideDown(300);
+        });
     });
 });
