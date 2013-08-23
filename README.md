@@ -19,29 +19,29 @@ https://docs.balancedpayments.com/current/#balanced-js
 
 ## Building ###
 
-#### Both JS and Proxy ####
+##### Both JS and Proxy #####
 
     grunt or grunt build
 
-#### Just JS ####
+##### Just JS #####
 
     grunt build-js
 
-#### Just Proxy ####
+##### Just Proxy #####
 
     grunt build-proxy
 
 ## Cleaning ##
 
-#### Both JS and Proxy ####
+##### Both JS and Proxy #####
 
     grunt clean
 
-#### Just JS ####
+##### Just JS #####
 
     grunt clean-js
 
-#### Just Proxy ####
+##### Just Proxy #####
 
     grunt clean-proxy
 
