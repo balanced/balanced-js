@@ -1,45 +1,54 @@
-balanced.js
-===========
+# balanced.js #
 
 Javascript client library for Balanced that tokenizes cards and bank accounts.
 
-Documentation
-=============
+## Documentation ##
 
 https://docs.balancedpayments.com/current/#balanced-js
 
-Prerequisites
-===========
+## Prerequisites ##
 
     node.js (version >= 0.8.0)
 
-Installation
-============
+## Installation ##
 
     git clone git@github.com:nodesocket/balanced-js.git
     cd balanced-js
     npm install -g grunt-cli
     npm install
 
-Building
-========
+## Building ###
 
-    npm build
+#### Both JS and Proxy ####
 
-or
+    grunt or grunt build
 
-    grunt build
+#### Just JS ####
 
-Running Tests
-=============
+    grunt build-js
 
-    npm test
+#### Just Proxy ####
 
-or
+    grunt build-proxy
+
+## Cleaning ##
+
+#### Both JS and Proxy ####
+
+    grunt clean
+
+#### Just JS ####
+
+    grunt clean-js
+
+#### Just Proxy ####
+
+    grunt clean-proxy
+
+## Running Tests ##
 
     grunt test
 
-View Example HTML Page
-======================
+## View Example HTML Page ##
 
     open ./example/index.html

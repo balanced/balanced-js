@@ -5,13 +5,11 @@
   "repository": "git@github.com:nodesocket/balanced-js.git",
   "author": "Balanced <dev@balancedpayments.com>",
   "main": "Gruntfile.js",
-  "scripts": {
-    "test": "grunt test --verbose",
-    "build": "grunt build"
-  },
+  "scripts": {},
   "devDependencies": {
     "grunt": "0.4.1",
     "grunt-contrib-jshint": "0.6.3",
-    "grunt-contrib-uglify": "~0.2.2"
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-clean": "~0.5.0"
   }
 }

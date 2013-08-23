@@ -53,7 +53,7 @@ var cc = {
     },
     validate:function (cardData) {
         if (cardData.card_number) {
-            cardData.card_number = cardData.card_number.toString().trim()
+            cardData.card_number = cardData.card_number.toString().trim();
         }
         var cardNumber = cardData.card_number,
             securityCode = cardData.security_code,
@@ -67,9 +67,6 @@ var cc = {
             errors.security_code = '"' + securityCode + '" is not a valid credit card security code';
         }
         if (!cc.isExpiryValid(expiryMonth, expiryYear)) {
-            //  inconsistent
-            errors.expiry = '"' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiry date';
-            //  consistent
             errors.expiration = '"' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date';
         }
         return errors;
@@ -203,7 +200,7 @@ var ba = {
     }
 };
 
-ctx.balanced = {
+balanced = {
     init:function (marketplace_uri, params) {
         params = params || {};
         if ('server' in params) {
@@ -222,7 +219,9 @@ ctx.balanced = {
 
         createProxy(params.mock);
     },
-    card:cc, bankAccount:ba, emailAddress:em
+    card: cc,
+    bankAccount: ba,
+    emailAddress: em
 };
 
 var server = 'https://js.balancedpayments.com',
