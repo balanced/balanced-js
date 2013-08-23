@@ -45,6 +45,8 @@ Javascript client library for Balanced that tokenizes cards and bank accounts.
 
 Creates a node.js connect http web server and blocks, waiting for requests. Serves from `/build`.
 
+![Screenshot](http://i.imgur.com/M7Wd9rq.png)
+
     grunt serve-proxy
 
 Then
