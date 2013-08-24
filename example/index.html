@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Balanced.js Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 25px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-info">
+                    <p>Do not provide real credit card or bank account details into these forms. Instead use <a href="https://docs.balancedpayments.com/current/overview.html#test-credit-card-numbers" class="alert-link" target="_blank">test cards</a> and <a href="https://docs.balancedpayments.com/current/overview.html#test-bank-account-numbers" class="alert-link" target="_blank">bank accounts</a>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Tokenize Credit Card</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Card Number</label>
+                                <div class="col-lg-5">
+                                    <input type="text" id="cc-number" class="form-control" autocomplete="off" placeholder="4111111111111111" maxlength="16" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Expiration</label>
+                                <div class="col-lg-2">
+                                    <input type="text" id="cc-ex-month" class="form-control" autocomplete="off" placeholder="01" maxlength="2" />
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="text" id="cc-ex-year" class="form-control" autocomplete="off" placeholder="2013" maxlength="4" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Security Code (CSC)</label>
+                                <div class="col-lg-2">
+                                    <input type="text" id="ex-csc" class="form-control" autocomplete="off" placeholder="453" maxlength="4" />
+                                </div>
+                            </div>
+                            <a id="cc-submit" class="btn btn-large btn-primary pull-right">Tokenize</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Tokenize Bank Account</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Account Holder's Name</label>
+                                <div class="col-lg-6">
+                                    <input type="text" id="ba-name" class="form-control" autocomplete="off" placeholder="John Doe" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Routing Number</label>
+                                <div class="col-lg-6">
+                                    <input type="text" id="ba-routing" class="form-control" autocomplete="off" placeholder="322271627" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-5 control-label">Account Number</label>
+                                <div class="col-lg-6">
+                                    <input type="text" id="ba-number" class="form-control" autocomplete="off" placeholder="8887776665555" />
+                                </div>
+                            </div>
+                            <a id="ba-submit" class="btn btn-large btn-primary pull-right">Tokenize</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="response" class="col-lg-12" style="display: none;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Response</h3>
+                    </div>
+                    <div class="panel-body">
+                        <pre></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/balanced.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>
