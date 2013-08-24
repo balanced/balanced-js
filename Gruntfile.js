@@ -14,11 +14,10 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'build/<%= pkg.name %>': [
-                        'lib/xd.js',
-                        'lib/json2.js',
                         'src/<%= pkg.name %>',
-                        'src/utils.js'
-
+                        'src/utils.js',
+                        'lib/json2.js',
+                        'lib/xd.js'
                     ]
                 }
             },
@@ -28,10 +27,10 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'build/balanced-proxy.js': [
+                        'src/proxy.js',
                         'lib/json2.js',
                         'lib/ajax.js',
-                        'lib/xd.js',
-                        'src/proxy.js'
+                        'lib/xd.js'
                     ]
                 }
             }
