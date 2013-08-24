@@ -17,7 +17,7 @@
 
 ##### Both JS and Proxy #####
 
-    grunt or grunt build
+`grunt` or `grunt build`
 
 ##### Just JS #####
 
