@@ -8,9 +8,9 @@ var frame = null,
     callbackInitialized = false,
     windowProxy,
     capabilities = {
-        system_timezone:-(new Date()).getTimezoneOffset() / 60,
-        user_agent:navigator.userAgent,
-        language:navigator.language
+        system_timezone: -(new Date()).getTimezoneOffset() / 60,
+        user_agent: navigator.userAgent,
+        language: navigator.language
     };
 
 var initIFrame = function () {
@@ -20,15 +20,15 @@ var initIFrame = function () {
     var frameName = "balancedFrame" + (new Date()).getTime();
     var src = proxy + "#" + encodeURIComponent(window.location.href);
     var attributes = {
-        src:src,
-        name:frameName,
-        id:frameName,
-        frameborder:0,
-        scrolling:'no',
-        allowtransparency:'true',
-        width:0,
-        height:0,
-        style:'position:absolute;top:0;left:0;width:0;height:0'
+        src: src,
+        name: frameName,
+        id: frameName,
+        frameborder: 0,
+        scrolling: 'no',
+        allowtransparency: 'true',
+        width: 0,
+        height: 0,
+        style: 'position:absolute;top:0;left:0;width:0;height:0'
     };
     for (var key in attributes) {
         iframe.setAttribute(key, attributes[key]);
@@ -57,9 +57,9 @@ var processMessages = function () {
         XD.postMessage(message, proxy, proxy, frame);
         timeoutQueue[messageId] = window.setTimeout(function () {
             callbackQueue[messageId]({
-                status:504,
-                error:{
-                    message:'There was a timeout processing your operation'
+                status: 504,
+                error: {
+                    message: 'There was a timeout processing your operation'
                 }
             });
             delete callbackQueue[messageId];
@@ -111,14 +111,14 @@ var preparePayload = function (unencryptedDict) {
 var sendWhenReady = function (uri, data, callback, method) {
     method = method || 'POST';
     messageQueue.push({
-        message:{
-            id:callCount++,
-            uri:uri,
-            params:data,
-            method:method,
-            revision:revision
+        message: {
+            id: callCount++,
+            uri: uri,
+            params: data,
+            method: method,
+            revision: revision
         },
-        callback:callback
+        callback: callback
     });
     processMessages();
 };
