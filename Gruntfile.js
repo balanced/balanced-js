@@ -66,25 +66,11 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            ////
-            // This tasks blocks, i.e. creates a node.js connect http server (port 3000)
-            ////
             proxy: {
                 options: {
                     port: 3000,
                     hostname: '*',
                     base: 'build',
-                    keepalive: true
-                }
-            },
-            ////
-            // This tasks blocks, i.e. creates a node.js connect http server (port 3001)
-            ////
-            example: {
-                options: {
-                    port: 3001,
-                    hostname: '*',
-                    base: 'example',
                     keepalive: true
                 }
             }
@@ -100,6 +86,16 @@ module.exports = function (grunt) {
             }
         },
         copy: {
+            example: {
+                files: [
+                    {
+                        cwd: 'example/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/'
+                    }
+                ]
+            },
             test: {
                 files: [
                     {
@@ -175,7 +171,7 @@ module.exports = function (grunt) {
 
     // Build tasks
     grunt.registerTask('default', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy']);
-    grunt.registerTask('build', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy']);
+    grunt.registerTask('build', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy', 'copy:example']);
     grunt.registerTask('build-js', 'uglify:js');
     grunt.registerTask('build-proxy', ['uglify:proxy', 'htmlbuild:proxy']);
 
@@ -186,8 +182,7 @@ module.exports = function (grunt) {
     grunt.registerTask('clean-proxy', 'purge:proxy');
 
     // Serve tasks
-    grunt.registerTask('serve-proxy', 'connect:proxy');
-    grunt.registerTask('serve-example', 'connect:example');
+    grunt.registerTask('serve', 'connect:proxy');
 
     grunt.registerTask('test', ['build', 'copy:test', 'concat:test', 'qunit']);
 };

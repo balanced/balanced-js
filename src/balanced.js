@@ -215,6 +215,7 @@ balanced = {
         }
 
         createProxy(params.mock);
+        initd = true;
     },
     card: cc,
     bankAccount: ba,
