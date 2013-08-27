@@ -97,7 +97,6 @@ var cc = {
         } else {
             var uri = '/cards';
             var payload = preparePayload(data);
-
             sendWhenReady(uri, payload, callback);
         }
     }
@@ -210,6 +209,10 @@ balanced = {
             proxy = server + '/proxy.html';
         }
         createProxy(params.mock);
+        if (params.revision) {
+            revision = params.revision;
+        }
+        initd = true;
     },
     card: cc,
     bankAccount: ba,
@@ -219,6 +222,8 @@ balanced = {
 var server = 'https://js.balancedpayments.com',
     proxy = server + '/proxy.html',
     initd = false,
+    DEFAULT_REVISION = '1.0',
+    revision = DEFAULT_REVISION,
     ROUTING_NUMBER_URI = '/v1/bank_accounts/routing_numbers/',
     validate = function (details, requiredKeys, validationMethod) {
         var errors = {};
