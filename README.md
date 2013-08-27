@@ -8,7 +8,7 @@
 
 ## Installation ##
 
-    git clone git@github.com:nodesocket/balanced-js.git
+    git clone git@github.com:balanced/balanced-js.git
     cd balanced-js
     npm install -g grunt-cli
     npm install
