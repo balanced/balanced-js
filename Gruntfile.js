@@ -159,6 +159,44 @@ module.exports = function (grunt) {
             all: ['build/test/runner.html']
         },
 
+        s3: {
+            options: {
+                bucket: 'balanced-js',
+                access: 'public-read',
+                region: 'us-west-1',
+                gzip: true,
+                headers: {
+                    'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
+                }
+            },
+//            cached: {
+//                headers: {
+//                    'Cache-Control': 'public, max-age=86400'
+//                },
+//                upload: [
+//                    {
+//                        src: 'dist/js/*',
+//                        dest: 'js/'
+//                    }
+//                ]
+//            },
+            not_cached: {
+                headers: {
+                    'Cache-Control': 'max-age=60'
+                },
+                upload: [
+                    {
+                        src: 'build/balanced.js',
+                        dest: 'balanced.js'
+                    },
+                    {
+                        src: 'build/proxy.html',
+                        dest: 'proxy.html'
+                    }
+                ]
+            }
+        },
+
     });
 
     // Load plugins
@@ -170,6 +208,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-qunit-istanbul');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-s3');
 
     // Build tasks
     grunt.registerTask('default', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy']);
@@ -187,4 +226,5 @@ module.exports = function (grunt) {
     grunt.registerTask('serve', 'connect:proxy');
 
     grunt.registerTask('test', ['build', 'copy:test', 'concat:test', 'qunit']);
+    grunt.registerTask('deploy', ['build', 's3']);
 };
