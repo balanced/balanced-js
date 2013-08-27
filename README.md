@@ -47,12 +47,8 @@
 
 Creates a node.js connect http web server *(port 3000)* and blocks, waiting for requests. Serves from `/build`.
 
-    grunt serve-proxy
-
-Creates a node.js connect http web server *(port 3001)* and blocks, waiting for requests. Serves from `/example`.
-
-    grunt serve-example
+    grunt serve
 
 Then
 
-    open http://localhost:3001
+    open http://localhost:3000
