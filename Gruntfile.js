@@ -185,11 +185,11 @@ module.exports = function (grunt) {
                 upload: [
                     {
                         src: 'build/balanced.js',
-                        dest: ''
+                        dest: 'balanced.js'
                     },
                     {
                         src: 'build/proxy.html',
-                        dest: ''
+                        dest: 'proxy.html'
                     }
                 ]
             }
