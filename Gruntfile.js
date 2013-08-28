@@ -16,36 +16,37 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'build/<%= pkg.name %>': [
-                        'src/<%= pkg.name %>',
-                        'src/utils.js',
-                        'lib/json2.js',
-                        'lib/xd.js'
+                        'src/<%= pkg.name %>'
                     ]
                 }
             },
-            proxy: {
+	    min: {
                 options: {
-                    banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n'
+                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
+                    footer: grunt.file.read('license.txt', {
+                        encoding: 'utf8'
+                    }),
+                    mangle: true,
+                    beautify: false,
+                    wrap: 'balanced'
                 },
                 files: {
-                    'build/balanced-proxy.js': [
-                        'src/proxy.js',
-                        'lib/json2.js',
-                        'lib/ajax.js',
-                        'lib/xd.js'
+                    'build/balanced.min.js': [
+                        'src/<%= pkg.name %>'
                     ]
                 }
-            }
-        },
-        htmlbuild: {
-            proxy: {
-                src: 'templates/proxy.html',
-                dest: 'build/proxy.html',
+            },
+	    json: {
                 options: {
+                    banner: '////\n// json2.js \n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
+		    mangle: true,
                     beautify: false,
-                    sections: {
-                        js: 'build/balanced-proxy.js'
-                    }
+		},
+
+		files: {
+                    'build/json2.js': [
+                        'lib/json2.js'
+                    ]
                 }
             }
         },
@@ -187,9 +188,13 @@ module.exports = function (grunt) {
                         src: 'build/balanced.js',
                         dest: 'balanced.js'
                     },
+		    {
+                        src: 'build/balanced.min.js',
+                        dest: 'balanced.min.js'
+                    },
                     {
-                        src: 'build/proxy.html',
-                        dest: 'proxy.html'
+                        src: 'build/json2.js',
+                        dest: 'json2.js'
                     }
                 ]
             }
@@ -199,7 +204,7 @@ module.exports = function (grunt) {
 
     // Load plugins
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-html-build');
+    //grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-connect');
@@ -209,10 +214,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-s3');
 
     // Build tasks
-    grunt.registerTask('default', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy']);
-    grunt.registerTask('build', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy', 'copy:example']);
+    grunt.registerTask('default', ['uglify:js', 'uglify:json', 'uglify:min']);//, 'htmlbuild:proxy']);
+    grunt.registerTask('build', ['uglify:js', 'uglify:json', 'uglify:min']);//, 'htmlbuild:proxy', 'copy:example']);
     grunt.registerTask('build-js', 'uglify:js');
-    grunt.registerTask('build-proxy', ['uglify:proxy', 'htmlbuild:proxy']);
+    //grunt.registerTask('build-proxy', ['uglify:proxy'], 'htmlbuild:proxy']);
 
     // Clean tasks
     grunt.renameTask('clean', 'purge');
