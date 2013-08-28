@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('#cc-submit').click(function (e) {
         e.preventDefault();
 
-        $('#response').slideUp(200);
+        $('#response').hide();
 
         var payload = {
             number: $('#cc-number').val(),
@@ -25,7 +25,7 @@ $(document).ready(function () {
     $('#ba-submit').click(function (e) {
         e.preventDefault();
 
-        $('#response').slideUp(200);
+        $('#response').hide();
 
         var payload = {
             name: $('#ba-name').val(),
@@ -41,6 +41,8 @@ $(document).ready(function () {
     });
 
     $('#populate').click(function () {
+        $(this).attr("disabled", true);
+
         $('#cc-number').val('4111111111111111');
         $('#cc-ex-month').val('12');
         $('#cc-ex-year').val('2020');
