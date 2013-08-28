@@ -45,6 +45,22 @@ test('isCardNumberValid', function (assert) {
             expected: true
         },
         {
+            number: '378734493671000',
+            expected: true
+        },
+        {
+            number: '6011111111111117',
+            expected: true
+        },
+        {
+            number: '4222222222222',
+            expected: true
+        },
+        {
+            number: '5105105105105100',
+            expected: true
+        },
+        {
             number: '42123',
             expected: false
         },
@@ -86,12 +102,32 @@ test('cardType', function (assert) {
             expected: 'Mastercard'
         },
         {
+            number: '5555555555554444',
+            expected: 'Mastercard'
+        },
+        {
             number: '4111111111111111',
+            expected: 'VISA'
+        },
+        {
+            number: '4012888888881881',
+            expected: 'VISA'
+        },
+        {
+            number: '4222222222222',
             expected: 'VISA'
         },
         {
             number: '341111111111111',
             expected: 'American Express'
+        },
+        {
+            number: '378734493671000',
+            expected: 'American Express'
+        },
+        {
+            number: '6011111111111117',
+            expected: 'Discover Card'
         },
         {
             number: '4111111111111111 ',
