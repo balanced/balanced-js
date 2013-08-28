@@ -29,7 +29,7 @@ Javascript client library for Balanced that tokenizes cards and bank accounts. R
 
 ## Cleaning (deletes builds) ##
 
-##### Both JS and Proxy #####
+##### Everything #####
 
     grunt clean
 
