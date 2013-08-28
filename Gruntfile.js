@@ -46,7 +46,7 @@ module.exports = function (grunt) {
                 options: {
                     beautify: false,
                     sections: {
-                        js: 'build/balanced-proxy.js'
+                        proxyjs: 'build/balanced-proxy.js'
                     }
                 }
             }
@@ -59,6 +59,12 @@ module.exports = function (grunt) {
                 src: [
                     'build/balanced-proxy.js',
                     'build/proxy.html'
+                ]
+            },
+            example: {
+                src: [
+                    'build/index.html',
+                    'build/index.js'
                 ]
             },
             test: {
@@ -211,20 +217,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-s3');
 
     // Build tasks
-    grunt.registerTask('default', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy']);
-    grunt.registerTask('build', ['uglify:js', 'uglify:proxy', 'htmlbuild:proxy', 'copy:example']);
+    grunt.registerTask('default', ['uglify', 'htmlbuild']);
+    grunt.registerTask('build', 'default');
     grunt.registerTask('build-js', 'uglify:js');
-    grunt.registerTask('build-proxy', ['uglify:proxy', 'htmlbuild:proxy']);
+    grunt.registerTask('build-proxy', ['uglify:proxy', 'htmlbuild']);
 
     // Clean tasks
     grunt.renameTask('clean', 'purge');
-    grunt.registerTask('clean', ['purge:js', 'purge:proxy', 'purge:test']);
+    grunt.registerTask('clean', 'purge');
     grunt.registerTask('clean-js', 'purge:js');
     grunt.registerTask('clean-proxy', 'purge:proxy');
 
     // Serve tasks
-    grunt.registerTask('serve', 'connect:proxy');
+    grunt.registerTask('serve', ['purge:example', 'copy:example', 'connect:proxy']);
 
+    // Test tasks
     grunt.registerTask('test', ['build', 'copy:test', 'concat:test', 'qunit']);
     grunt.registerTask('deploy', ['build', 's3']);
 };
