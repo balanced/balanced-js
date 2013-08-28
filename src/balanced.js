@@ -1,3 +1,12 @@
+////
+// Required for I.E. < 9 supports
+////
+if (!String.prototype.trim) {
+    String.prototype.trim=function() {
+        return this.replace(/^\s+|\s+$/g, '');
+    };
+}
+
 var cc = {
     isCardNumberValid:function (cardNumber) {
         if (!cardNumber) {
@@ -21,7 +30,9 @@ var cc = {
         p['4'] = 'VISA';
         p['6'] = 'Discover Card';
 
-        if (cardNumber) {
+        if (cardNumber && typeof cardNumber === "string") {
+            cardNumber = cardNumber.trim();
+
             for (var k in p) {
                 if (cardNumber.indexOf(k) === 0) {
                     return p[k];

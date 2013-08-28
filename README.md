@@ -52,3 +52,12 @@ Creates a node.js connect http web server *(port 3000)* and blocks, waiting for 
 Then
 
     open http://localhost:3000
+
+## Running Tests ##
+
+    grunt test
+
+Alternatively, you may run tests individually via:
+
+    grunt serve
+    open http://localhost:3000/test/runner.html

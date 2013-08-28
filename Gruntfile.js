@@ -231,7 +231,9 @@ module.exports = function (grunt) {
     // Serve tasks
     grunt.registerTask('serve', ['purge:example', 'copy:example', 'connect:proxy']);
 
-    // Test tasks
-    grunt.registerTask('test', ['build', 'copy:test', 'concat:test', 'qunit']);
+    // Test task
+    grunt.registerTask('test', ['build', 'purge:test', 'copy:test', 'concat:test', 'qunit']);
+
+    // Deploy task
     grunt.registerTask('deploy', ['build', 's3']);
 };
