@@ -52,16 +52,16 @@ var cc = {
             (today.getFullYear() === expiryYear && today.getMonth() >= expiryMonth));
     },
     validate:function (cardData) {
-        if (cardData.card_number) {
-            cardData.card_number = cardData.card_number.toString().trim();
+        if (cardData.number) {
+            cardData.number = cardData.number.toString().trim();
         }
-        var cardNumber = cardData.card_number,
+        var cardNumber = cardData.number,
             securityCode = cardData.security_code,
             expiryMonth = cardData.expiration_month,
             expiryYear = cardData.expiration_year;
         var errors = {};
         if (!cc.isCardNumberValid(cardNumber)) {
-            errors.card_number = '"' + cardNumber + '" is not a valid credit card number';
+            errors.number = '"' + cardNumber + '" is not a valid credit card number';
         }
         if (typeof securityCode !== 'undefined' && securityCode !== null && !cc.isSecurityCodeValid(cardNumber, securityCode)) {
             errors.security_code = '"' + securityCode + '" is not a valid credit card security code';
@@ -81,7 +81,7 @@ var cc = {
             return;
         }
         var requiredKeys = [
-            'card_number', 'expiration_month', 'expiration_year'
+            'number', 'expiration_month', 'expiration_year'
         ];
         var errors = validate(data, requiredKeys, cc.validate);
         var ec = 0;
