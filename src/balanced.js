@@ -1,5 +1,5 @@
 ////
-// Required for I.E. < 9 supports
+// Required for ie < 9 support
 ////
 if (!String.prototype.trim) {
     String.prototype.trim=function() {
@@ -30,8 +30,8 @@ var cc = {
         p['4'] = 'VISA';
         p['6'] = 'Discover Card';
 
-        if (cardNumber && typeof cardNumber === "string") {
-            cardNumber = cardNumber.trim();
+        if (cardNumber) {
+            cardNumber = cardNumber.toString().trim();
 
             for (var k in p) {
                 if (cardNumber.indexOf(k) === 0) {

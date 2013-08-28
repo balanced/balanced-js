@@ -13,6 +13,10 @@ test('isCardNumberValid', function (assert) {
             expected: true
         },
         {
+            number: 4111111111111111,
+            expected: true
+        },
+        {
             number: ' 4111111111111111',
             expected: true
         },
@@ -110,6 +114,10 @@ test('cardType', function (assert) {
             expected: 'VISA'
         },
         {
+            number: 4111111111111111,
+            expected: 'VISA'
+        },
+        {
             number: '4012888888881881',
             expected: 'VISA'
         },
@@ -180,6 +188,11 @@ test('isSecurityCodeValid', function (assert) {
     var tests = [
         {
             number: '4111111111111111',
+            csc: 123,
+            expected: true
+        },
+        {
+            number: 4111111111111111,
             csc: 123,
             expected: true
         },
