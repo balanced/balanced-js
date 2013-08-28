@@ -43,7 +43,7 @@ test('validateRoutingNumber', function (assert) {
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.bankAccount.validateRoutingNumber(tests[i].number), tests[i].expected);
+        assert.equal(balanced.bankAccount.validateRoutingNumber(tests[i].number), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
@@ -97,6 +97,6 @@ test('validate', function (assert) {
 
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(Object.keys(balanced.bankAccount.validate(tests[i])).length, tests[i].expected_length);
+        assert.equal(Object.keys(balanced.bankAccount.validate(tests[i])).length, tests[i].expected_length, "Test #" + (i + 1));
     }
 });

@@ -91,7 +91,7 @@ test('isCardNumberValid', function (assert) {
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.card.isCardNumberValid(tests[i].number), tests[i].expected);
+        assert.equal(balanced.card.isCardNumberValid(tests[i].number), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
@@ -172,6 +172,95 @@ test('cardType', function (assert) {
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.card.cardType(tests[i].number), tests[i].expected);
+        assert.equal(balanced.card.cardType(tests[i].number), tests[i].expected, "Test #" + (i + 1));
+    }
+});
+
+test('isSecurityCodeValid', function (assert) {
+    var tests = [
+        {
+            number: '4111111111111111',
+            csc: 123,
+            expected: true
+        },
+        {
+            number: '4111111111111111',
+            csc: '123',
+            expected: true
+        },
+        {
+            number: '4111111111111111',
+            csc: 1234,
+            expected: false
+        },
+        {
+            number: '4111111111111111',
+            csc: '1234',
+            expected: false
+        },
+        {
+            number: '4111111111111111',
+            csc: '',
+            expected: false
+        },
+        {
+            number: '4111111111111111',
+            csc: null,
+            expected: false
+        },
+        {
+            number: '4111111111111111',
+            csc: 'abc',
+            expected: false
+        },
+        {
+            number: '378734493671000',
+            csc: '1234',
+            expected: true
+        },
+        {
+            number: '378734493671000',
+            csc: 1234,
+            expected: true
+        },
+        {
+            number: '378734493671000',
+            csc: '123',
+            expected: false
+        },
+        {
+            number: '378734493671000',
+            csc: null,
+            expected: false
+        },
+        {
+            number: 'no numbers',
+            csc: '123',
+            expected: false
+        },
+        {
+            number: 'no numbers',
+            csc: '1234',
+            expected: false
+        },
+        {
+            number: null,
+            csc: '123',
+            expected: false
+        },
+        {
+            number: null,
+            csc: '1234',
+            expected: false
+        },
+        {
+            number: null,
+            csc: null,
+            expected: false
+        },
+    ];
+
+    for(var i = 0; i < tests.length; i++) {
+        assert.equal(balanced.card.isSecurityCodeValid(tests[i].number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
     }
 });

@@ -47,7 +47,14 @@ var cc = {
             return false;
         }
         var requiredLength = (cardType === 'American Express' ? 4 : 3);
-        return securityCode && securityCode.toString().replace(/\D+/g, '').length === requiredLength;
+
+        if(typeof securityCode === "string" || typeof securityCode === "number") {
+            if(securityCode.toString().replace(/\D+/g, '').length === requiredLength) {
+                return true;
+            }
+        }
+
+        return false;
     },
     isExpiryValid:function (expiryMonth, expiryYear) {
         if (!expiryMonth || !expiryYear) {
