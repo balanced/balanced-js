@@ -25,7 +25,9 @@ module.exports = function (grunt) {
             },
             proxy: {
                 options: {
-                    banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n'
+                    banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
+                    mangle: false,
+                    beautify: true
                 },
                 files: {
                     'build/balanced-proxy.js': [
