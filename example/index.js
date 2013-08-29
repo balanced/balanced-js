@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    balanced.init({
+    balanced.init('/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s', {
         server: 'http://localhost:3000'
     });
 
@@ -9,7 +9,7 @@ $(document).ready(function () {
         $('#response').hide();
 
         var payload = {
-            number: $('#cc-number').val(),
+            card_number: $('#cc-number').val(),
             expiration_month: $('#cc-ex-month').val(),
             expiration_year: $('#cc-ex-year').val(),
             security_code: $('#ex-csc').val()

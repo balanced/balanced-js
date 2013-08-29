@@ -70,16 +70,16 @@ var cc = {
             (today.getFullYear() === expiryYear && today.getMonth() >= expiryMonth));
     },
     validate:function (cardData) {
-        if (cardData.number) {
-            cardData.number = cardData.number.toString().trim();
+        if (cardData.card_number) {
+            cardData.card_number = cardData.card_number.toString().trim();
         }
-        var cardNumber = cardData.number,
+        var cardNumber = cardData.card_number,
             securityCode = cardData.security_code,
             expiryMonth = cardData.expiration_month,
             expiryYear = cardData.expiration_year;
         var errors = {};
         if (!cc.isCardNumberValid(cardNumber)) {
-            errors.number = '"' + cardNumber + '" is not a valid credit card number';
+            errors.card_number = '"' + cardNumber + '" is not a valid credit card number';
         }
         if (typeof securityCode !== 'undefined' && securityCode !== null && !cc.isSecurityCodeValid(cardNumber, securityCode)) {
             errors.security_code = '"' + securityCode + '" is not a valid credit card security code';
@@ -94,12 +94,12 @@ var cc = {
             noDataError(callback);
             return;
         }
-        if (!initd) {
+        if (!_marketplace_uri) {
             noDataError(callback, 'You need to call balanced.init first');
             return;
         }
         var requiredKeys = [
-            'number', 'expiration_month', 'expiration_year'
+            'card_number', 'expiration_month', 'expiration_year'
         ];
         var errors = validate(data, requiredKeys, cc.validate);
         var ec = 0;
@@ -113,7 +113,7 @@ var cc = {
                 status:400
             });
         } else {
-            var uri = '/cards';
+            var uri = _marketplace_uri + '/cards';
             var payload = preparePayload(data);
             sendWhenReady(uri, payload, callback);
         }
@@ -172,7 +172,7 @@ var ba = {
             ) % 10;
     },
     lookupRoutingNumber:function (routingNumber, callback) {
-        if (!initd) {
+        if (!_marketplace_uri) {
             noDataError(callback, 'You need to call balanced.init first');
             return;
         }
@@ -194,7 +194,7 @@ var ba = {
             noDataError(callback);
             return;
         }
-        if (!initd) {
+        if (!_marketplace_uri) {
             noDataError(callback, 'You need to call balanced.init first');
             return;
         }
@@ -214,7 +214,7 @@ var ba = {
                 status:400
             });
         } else {
-            var uri = '/bank_accounts';
+            var uri = _marketplace_uri + '/bank_accounts';
             var payload = preparePayload(data);
             sendWhenReady(uri, payload, callback);
         }
@@ -222,17 +222,19 @@ var ba = {
 };
 
 balanced = {
-    init:function (params) {
+    init:function (marketplace_uri, params) {
         params = params || {};
         if ('server' in params) {
             server = params.server;
             proxy = server + '/proxy.html';
         }
-        createProxy(params.mock);
-        if (params.revision) {
-            revision = params.revision;
+        try {
+            _marketplace_uri = new RegExp(MARKETPLACE_URI_REGEX).exec(marketplace_uri)[0];
+        } catch (e) {
+            throw 'Invalid marketplace uri "' + marketplace_uri + '"';
         }
-        initd = true;
+
+        createProxy(params.mock);
     },
     card: cc,
     bankAccount: ba,
@@ -241,9 +243,8 @@ balanced = {
 
 var server = 'https://js.balancedpayments.com',
     proxy = server + '/proxy.html',
-    initd = false,
-    DEFAULT_REVISION = '1.0',
-    revision = DEFAULT_REVISION,
+    _markplace_uri,
+    MARKETPLACE_URI_REGEX = '/v1/marketplaces/(\\w|-)+',
     ROUTING_NUMBER_URI = '/v1/bank_accounts/routing_numbers/',
     validate = function (details, requiredKeys, validationMethod) {
         var errors = {};

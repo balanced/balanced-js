@@ -7,10 +7,6 @@ var handleMessage = function (data) {
         }, options.parentDomain, options.parentURL, parent);
     };
     var method = data.method || 'POST';
-    jx.customHeaders.push({
-        key: 'Accept',
-        value: 'application/vnd.balancedpayments+json; version=' + data.revision
-    });
     jx.load(data.uri + '?' + data.params, callback, 'text', method);
 };
 var options = {

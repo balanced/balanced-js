@@ -115,8 +115,7 @@ var sendWhenReady = function (uri, data, callback, method) {
             id: callCount++,
             uri: uri,
             params: data,
-            method: method,
-            revision: revision
+            method: method
         },
         callback: callback
     });

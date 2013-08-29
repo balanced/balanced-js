@@ -9,87 +9,87 @@ module('balanced.js.cards', {
 test('isCardNumberValid', function (assert) {
     var tests = [
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expected: true
         },
         {
-            number: 4111111111111111,
+            card_number: 4111111111111111,
             expected: true
         },
         {
-            number: ' 4111111111111111',
+            card_number: ' 4111111111111111',
             expected: true
         },
         {
-            number: '4111111111111111 ',
+            card_number: '4111111111111111 ',
             expected: true
         },
         {
-            number: ' 4111111111111111 ',
+            card_number: ' 4111111111111111 ',
             expected: true
         },
         {
-            number: '4111 1111 1111 1111',
+            card_number: '4111 1111 1111 1111',
             expected: true
         },
         {
-            number: '4111-1111-1111-1111',
+            card_number: '4111-1111-1111-1111',
             expected: true
         },
         {
-            number: '4111-1111-1111-1111 ',
+            card_number: '4111-1111-1111-1111 ',
             expected: true
         },
         {
-            number: ' 4111-1111-1111-1111',
+            card_number: ' 4111-1111-1111-1111',
             expected: true
         },
         {
-            number: ' 4111-1111-1111-1111 ',
+            card_number: ' 4111-1111-1111-1111 ',
             expected: true
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             expected: true
         },
         {
-            number: '6011111111111117',
+            card_number: '6011111111111117',
             expected: true
         },
         {
-            number: '4222222222222',
+            card_number: '4222222222222',
             expected: true
         },
         {
-            number: '5105105105105100',
+            card_number: '5105105105105100',
             expected: true
         },
         {
-            number: '42123',
+            card_number: '42123',
             expected: false
         },
         {
-            number: 41111,
+            card_number: 41111,
             expected: false
         },
         {
-            number: 'no numbers in hurr',
+            card_number: 'no numbers in hurr',
             expected: false
         },
         {
-            number: null,
+            card_number: null,
             expected: false
         },
         {
-            number: '',
+            card_number: '',
             expected: false
         },
         {
-            number: false,
+            card_number: false,
             expected: false
         },
         {
-            number: true,
+            card_number: true,
             expected: false
         }
     ];
