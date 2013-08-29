@@ -95,186 +95,186 @@ test('isCardNumberValid', function (assert) {
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.card.isCardNumberValid(tests[i].number), tests[i].expected, "Test #" + (i + 1));
+        assert.equal(balanced.card.isCardNumberValid(tests[i].card_number), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
 test('cardType', function (assert) {
     var tests = [
         {
-            number: '5105105105105100',
+            card_number: '5105105105105100',
             expected: 'Mastercard'
         },
         {
-            number: '5555555555554444',
+            card_number: '5555555555554444',
             expected: 'Mastercard'
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expected: 'VISA'
         },
         {
-            number: 4111111111111111,
+            card_number: 4111111111111111,
             expected: 'VISA'
         },
         {
-            number: '4012888888881881',
+            card_number: '4012888888881881',
             expected: 'VISA'
         },
         {
-            number: '4222222222222',
+            card_number: '4222222222222',
             expected: 'VISA'
         },
         {
-            number: '341111111111111',
+            card_number: '341111111111111',
             expected: 'American Express'
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             expected: 'American Express'
         },
         {
-            number: '6011111111111117',
+            card_number: '6011111111111117',
             expected: 'Discover Card'
         },
         {
-            number: '4111111111111111 ',
+            card_number: '4111111111111111 ',
             expected: 'VISA'
         },
         {
-            number: ' 4111111111111111',
+            card_number: ' 4111111111111111',
             expected: 'VISA'
         },
         {
-            number: ' 4111111111111111 ',
+            card_number: ' 4111111111111111 ',
             expected: 'VISA'
         },
         {
-            number: '4111 1111 1111 1111',
+            card_number: '4111 1111 1111 1111',
             expected: 'VISA'
         },
         {
-            number: '4111-1111-1111-1111',
+            card_number: '4111-1111-1111-1111',
             expected: 'VISA'
         },
         {
-            number: 'no numbers in hurr',
+            card_number: 'no numbers in hurr',
             expected: null
         },
         {
-            number: null,
+            card_number: null,
             expected: null
         },
         {
-            number: '',
+            card_number: '',
             expected: null
         },
         {
-            number: false,
+            card_number: false,
             expected: null
         },
         {
-            number: true,
+            card_number: true,
             expected: null
         }
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.card.cardType(tests[i].number), tests[i].expected, "Test #" + (i + 1));
+        assert.equal(balanced.card.cardType(tests[i].card_number), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
 test('isSecurityCodeValid', function (assert) {
     var tests = [
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: 123,
             expected: true
         },
         {
-            number: 4111111111111111,
+            card_number: 4111111111111111,
             csc: 123,
             expected: true
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: '123',
             expected: true
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: 1234,
             expected: false
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: '1234',
             expected: false
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: '',
             expected: false
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: null,
             expected: false
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             csc: 'abc',
             expected: false
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             csc: '1234',
             expected: true
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             csc: 1234,
             expected: true
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             csc: '123',
             expected: false
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             csc: null,
             expected: false
         },
         {
-            number: 'no numbers',
+            card_number: 'no numbers',
             csc: '123',
             expected: false
         },
         {
-            number: 'no numbers',
+            card_number: 'no numbers',
             csc: '1234',
             expected: false
         },
         {
-            number: null,
+            card_number: null,
             csc: '123',
             expected: false
         },
         {
-            number: null,
+            card_number: null,
             csc: '1234',
             expected: false
         },
         {
-            number: null,
+            card_number: null,
             csc: null,
             expected: false
         },
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.card.isSecurityCodeValid(tests[i].number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
+        assert.equal(balanced.card.isSecurityCodeValid(tests[i].card_number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
@@ -355,55 +355,55 @@ test('isExpiryValid', function (assert) {
 test('validate', function (assert) {
     var tests = [
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
             security_code: 123,
             expected_length: 0
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
             security_code: null,
             expected_length: 0
         },
         {
-            number: null,
+            card_number: null,
             expiration_month: 1,
             expiration_year: 2030,
             security_code: null,
             expected_length: 1
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
             security_code: 123,
             expected_length: 0
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
             security_code: '',
             expected_length: 1
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
             expected_length: 0
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2000,
             security_code: 123,
             expected_length: 1
         },
         {
-            number: '4111111111111111',
+            card_number: '4111111111111111',
             expiration_month: '14',
             expiration_year: '2030',
             expected_length: 1
@@ -416,7 +416,7 @@ test('validate', function (assert) {
             expected_length: 3
         },
         {
-            number: '',
+            card_number: '',
             expiration_month: '',
             expiration_year: '',
             security_code: 'asdff',
@@ -430,38 +430,38 @@ test('validate', function (assert) {
             expected_length: 2
         },
         {
-            number: 378734493671000,
+            card_number: 378734493671000,
             expiration_month: 1,
             expiration_year: 2030,
             expected_length: 0
         },
         {
-            number: '378734493671000',
+            card_number: '378734493671000',
             expiration_month: '1',
             expiration_year: 2030,
             expected_length: 0
         },
         {
-            number: '4111-1111-1111-1111',
+            card_number: '4111-1111-1111-1111',
             expiration_month: 1,
             expiration_year: 2030,
             expected_length: 0
         },
         {
-            number: 'no numbers in hurr',
+            card_number: 'no numbers in hurr',
             expiration_month: '1',
             expiration_year: '2030',
             expected_length: 1
         },
         {
-            number: '6011111111111117',
+            card_number: '6011111111111117',
             expiration_month: '1',
             expiration_year: '2030',
             security_code: 123,
             expected_length: 0
         },
         {
-            number: '6011111111111117',
+            card_number: '6011111111111117',
             expiration_month: '1',
             expiration_year: '2030',
             security_code: 1234,
