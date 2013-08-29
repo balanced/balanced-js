@@ -6,10 +6,7 @@ module.exports = function (grunt) {
         uglify: {
             js: {
                 options: {
-                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
-                    footer: grunt.file.read('license.txt', {
-                        encoding: 'utf8'
-                    }),
+                    banner: '/*\n' + grunt.file.read('license.txt') + '\n*/\n\n////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
                     mangle: false,
                     beautify: true,
                     wrap: 'balanced'

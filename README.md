@@ -10,8 +10,8 @@ Javascript client library for Balanced that tokenizes cards and bank accounts. R
 
     git clone git@github.com:balanced/balanced-js.git
     cd balanced-js
-    sudo npm install -g grunt-cli
-    sudo npm install
+    npm install -g grunt-cli
+    npm install
 
 ## Building ###
 
