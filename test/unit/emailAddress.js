@@ -59,6 +59,10 @@ test('validate', function (assert) {
         {
             email_address: 'foo@bar',
             expected: false
+        },
+        {
+            email_address: 'foo@bar.',
+            expected: false
         }
     ];
 
