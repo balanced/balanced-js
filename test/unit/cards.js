@@ -277,3 +277,200 @@ test('isSecurityCodeValid', function (assert) {
         assert.equal(balanced.card.isSecurityCodeValid(tests[i].number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
     }
 });
+
+test('isExpiryValid', function (assert) {
+    var tests = [
+        {
+            expiration_month: 11,
+            expiration_year: 2030,
+            expected: true
+        },
+        {
+            expiration_month: '14',
+            expiration_year: '2030',
+            expected: false
+        },
+        {
+            expiration_month: 13,
+            expiration_year: 2030,
+            expected: false
+        },
+        {
+            expiration_month: '12',
+            expiration_year: '2030',
+            expected: true
+        },
+        {
+            expiration_month: 1,
+            expiration_year: 2012,
+            expected: false
+        },
+        {
+            expiration_month: '1',
+            expiration_year: '2012',
+            expected: false
+        },
+        {
+            expiration_month: null,
+            expiration_year: 2030,
+            expected: false
+        },
+        {
+            expiration_month: 0,
+            expiration_year: 0,
+            expected: false
+        },
+        {
+            expiration_month: '',
+            expiration_year: '',
+            expected: false
+        },
+        {
+            expiration_month: 13,
+            expiration_year: 2030,
+            expected: false
+        },
+        {
+            expiration_month: 1,
+            expiration_year: null,
+            expected: false
+        },
+        {
+            expiration_month: null,
+            expiration_year: null,
+            expected: false
+        },
+        {
+            expiration_month: 'MM',
+            expiration_year: 'YYYY',
+            expected: false
+        }
+    ];
+
+    for(var i = 0; i < tests.length; i++) {
+        assert.equal(balanced.card.isExpiryValid(tests[i].expiration_month, tests[i].expiration_year), tests[i].expected, "Test #" + (i + 1));
+    }
+});
+
+test('validate', function (assert) {
+    var tests = [
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            security_code: 123,
+            expected_length: 0
+        },
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            security_code: null,
+            expected_length: 0
+        },
+        {
+            number: null,
+            expiration_month: 1,
+            expiration_year: 2030,
+            security_code: null,
+            expected_length: 1
+        },
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            security_code: 123,
+            expected_length: 0
+        },
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            security_code: '',
+            expected_length: 1
+        },
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            expected_length: 0
+        },
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2000,
+            security_code: 123,
+            expected_length: 1
+        },
+        {
+            number: '4111111111111111',
+            expiration_month: '14',
+            expiration_year: '2030',
+            expected_length: 1
+        },
+        {
+            expected_length: 2
+        },
+        {
+            security_code: '1234',
+            expected_length: 3
+        },
+        {
+            number: '',
+            expiration_month: '',
+            expiration_year: '',
+            security_code: 'asdff',
+            expected_length: 3
+        },
+        {
+            number: null,
+            expiration_month: null,
+            expiration_year: null,
+            security_code: null,
+            expected_length: 2
+        },
+        {
+            number: 378734493671000,
+            expiration_month: 1,
+            expiration_year: 2030,
+            expected_length: 0
+        },
+        {
+            number: '378734493671000',
+            expiration_month: '1',
+            expiration_year: 2030,
+            expected_length: 0
+        },
+        {
+            number: '4111-1111-1111-1111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            expected_length: 0
+        },
+        {
+            number: 'no numbers in hurr',
+            expiration_month: '1',
+            expiration_year: '2030',
+            expected_length: 1
+        },
+        {
+            number: '6011111111111117',
+            expiration_month: '1',
+            expiration_year: '2030',
+            security_code: 123,
+            expected_length: 0
+        },
+        {
+            number: '6011111111111117',
+            expiration_month: '1',
+            expiration_year: '2030',
+            security_code: 1234,
+            expected_length: 1
+        }
+    ];
+
+
+    for(var i = 0; i < tests.length; i++) {
+        assert.equal(Object.keys(balanced.card.validate(tests[i])).length, tests[i].expected_length, "Test #" + (i + 1));
+    }
+});

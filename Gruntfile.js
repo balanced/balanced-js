@@ -149,14 +149,14 @@ module.exports = function (grunt) {
                 '--web-security': 'no',
                 timeout: 60000,
                 coverage: {
-                    src: ['build/js/balanced.js'],
+                    src: ['build/balanced.js'],
                     instrumentedFiles: 'temp/',
                     htmlReport: 'report/coverage',
                     coberturaReport: 'report/',
-                    linesThresholdPct: 84,
-                    statementsThresholdPct: 82,
-                    functionsThresholdPct: 76,
-                    branchesThresholdPct: 56
+                    linesThresholdPct: 80,
+                    statementsThresholdPct: 80,
+                    functionsThresholdPct: 80,
+                    branchesThresholdPct: 80
                 }
             },
             all: ['build/test/runner.html']

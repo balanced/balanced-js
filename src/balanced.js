@@ -122,9 +122,11 @@ var cc = {
 
 var em = {
     validate:function (emailAddress) {
-        var match = emailAddress &&
-            emailAddress.match(/[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+(?:\.[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+)*@(?:[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?/i);
-        return match && match.toString() === emailAddress;
+        if(emailAddress && emailAddress.match(/[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+(?:\.[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+)*@(?:[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?/i)) {
+            return true;
+        }
+
+        return false;
     }
 };
 
@@ -154,7 +156,7 @@ var ba = {
 
         routingNumber = routingNumber.join('');
 
-        if (!routingNumber || routingNumber.length != 9) {
+        if (!routingNumber || routingNumber.length !== 9) {
             return false;
         }
 
