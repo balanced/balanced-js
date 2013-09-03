@@ -20,7 +20,11 @@
 <script type="text/javascript" src="js/tests.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(window.balanced.init);
+    $(document).ready(function() {
+        balanced.init({
+            server: 'http://localhost:3000'
+        });
+    });
 </script>
 
 </body>

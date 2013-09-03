@@ -9,41 +9,41 @@ module('balanced.js.bank_accounts', {
 test('validateRoutingNumber', function (assert) {
     var tests = [
         {
-            number: '121000374',
+            routing_number: '121000374',
             expected: true
         },
         {
-            number: '1210003742',
+            routing_number: '1210003742',
             expected: false
         },
         {
-            number: '011000015',
+            routing_number: '011000015',
             expected: true
         },
         {
-            number: ' 121-000374-2 ',
+            routing_number: ' 121-000374-2 ',
             expected: false
         },
         {
-            number: null,
+            routing_number: null,
             expected: false
         },
         {
-            number: '',
+            routing_number: '',
             expected: false
         },
         {
-            number: 'no numbers in hurr',
+            routing_number: 'no numbers in hurr',
             expected: false
         },
         {
-            number: '123457890',
+            routing_number: '123457890',
             expected: false
         }
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.bankAccount.validateRoutingNumber(tests[i].number), tests[i].expected, "Test #" + (i + 1));
+        assert.equal(balanced.bankAccount.validateRoutingNumber(tests[i].routing_number), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
@@ -98,5 +98,42 @@ test('validate', function (assert) {
 
     for(var i = 0; i < tests.length; i++) {
         assert.equal(Object.keys(balanced.bankAccount.validate(tests[i])).length, tests[i].expected_length, "Test #" + (i + 1));
+    }
+});
+
+asyncTest('create', 3, function(assert) {
+    var count = 0;
+
+    function callback(response) {
+        console.log(response);
+        assert.equal(true, true);
+
+        if(count === 3) {
+            start();
+        }
+    }
+
+    var tests = [
+        {
+            name: 'Mike Smith',
+            account_number: '121000374',
+            bank_code: '121000374',
+            type: 'checking'
+        },
+        {
+            name: 'Mike Smith',
+            account_number: '121000374',
+            routing_number: '121000374',
+            type: 'savings'
+        },
+        {
+            name: 'Mike Smith',
+            account_number: '121000374',
+            routing_number: '121000374'
+        }
+    ];
+
+    for(var i = 0; i < tests.length; i++) {
+        balanced.bankAccount.create(tests[i], callback);
     }
 });

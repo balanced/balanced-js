@@ -36,6 +36,7 @@ module.exports = function (grunt) {
                 }
             }
         },
+
         htmlbuild: {
             proxy: {
                 src: 'templates/proxy.html',
@@ -48,6 +49,7 @@ module.exports = function (grunt) {
                 }
             }
         },
+
         purge: {
             js: {
                 src: 'build/<%= pkg.name %>'
@@ -66,10 +68,12 @@ module.exports = function (grunt) {
             },
             test: {
                 src: [
-                    'build/test'
+                    'build/test',
+                    'report'
                 ]
             }
         },
+
         connect: {
             proxy: {
                 options: {
@@ -80,6 +84,7 @@ module.exports = function (grunt) {
                 }
             }
         },
+
         concat: {
             test: {
                 src: [
@@ -90,6 +95,7 @@ module.exports = function (grunt) {
                 dest: 'build/test/js/tests.js'
             }
         },
+
         copy: {
             example: {
                 files: [
@@ -153,10 +159,10 @@ module.exports = function (grunt) {
                     instrumentedFiles: 'temp/',
                     htmlReport: 'report/coverage',
                     coberturaReport: 'report/',
-                    linesThresholdPct: 80,
-                    statementsThresholdPct: 80,
-                    functionsThresholdPct: 80,
-                    branchesThresholdPct: 80
+                    linesThresholdPct: 70,
+                    statementsThresholdPct: 70,
+                    functionsThresholdPct: 70,
+                    branchesThresholdPct: 70
                 }
             },
             all: ['build/test/runner.html']
@@ -200,6 +206,13 @@ module.exports = function (grunt) {
             }
         },
 
+        open: {
+            serve: {
+                path: 'http://localhost:3000',
+                app: 'Google Chrome'
+            }
+        }
+
     });
 
     // Load plugins
@@ -212,25 +225,22 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-qunit-istanbul');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-s3');
+    grunt.loadNpmTasks('grunt-open');
 
     // Build tasks
     grunt.registerTask('default', ['uglify', 'htmlbuild']);
     grunt.registerTask('build', 'default');
-    grunt.registerTask('build-js', 'uglify:js');
-    grunt.registerTask('build-proxy', ['uglify:proxy', 'htmlbuild']);
 
     // Clean tasks
     grunt.renameTask('clean', 'purge');
     grunt.registerTask('clean', 'purge');
-    grunt.registerTask('clean-js', 'purge:js');
-    grunt.registerTask('clean-proxy', 'purge:proxy');
 
     // Serve tasks
-    grunt.registerTask('serve', ['purge:example', 'copy:example', 'connect:proxy']);
+    grunt.registerTask('serve', ['clean', 'build', 'copy:example', 'open:serve', 'connect:proxy']);
 
     // Test task
-    grunt.registerTask('test', ['build', 'purge:test', 'copy:test', 'concat:test', 'qunit']);
+    grunt.registerTask('test', ['clean', 'build', 'copy:test', 'concat:test', 'qunit']);
 
     // Deploy task
-    grunt.registerTask('deploy', ['build', 's3']);
+    grunt.registerTask('deploy', ['clean', 'build', 's3']);
 };

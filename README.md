@@ -15,35 +15,15 @@ Javascript client library for Balanced that tokenizes cards and bank accounts. R
 
 ## Building ###
 
-##### Both JS and Proxy #####
-
     grunt
 
 or
 
     grunt build
 
-##### Just JS #####
-
-    grunt build-js
-
-##### Just Proxy #####
-
-    grunt build-proxy
-
 ## Cleaning (deletes builds) ##
 
-##### Everything #####
-
     grunt clean
-
-##### Just JS #####
-
-    grunt clean-js
-
-##### Just Proxy #####
-
-    grunt clean-proxy
 
 ## Running Example ##
 
@@ -53,15 +33,6 @@ Creates a node.js connect http web server *(port 3000)* and blocks, waiting for 
 
     grunt serve
 
-Then
-
-    open http://localhost:3000
-
 ## Running Tests ##
 
     grunt test
-
-Alternatively, you may run tests individually via:
-
-    grunt serve
-    open http://localhost:3000/test/runner.html
