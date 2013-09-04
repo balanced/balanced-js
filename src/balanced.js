@@ -1,3 +1,12 @@
+////
+// Required for ie < 9 support
+////
+if (!String.prototype.trim) {
+    String.prototype.trim=function() {
+        return this.replace(/^\s+|\s+$/g, '');
+    };
+}
+
 var cc = {
     isCardNumberValid:function (cardNumber) {
         if (!cardNumber) {
@@ -22,6 +31,8 @@ var cc = {
         p['6'] = 'Discover Card';
 
         if (cardNumber) {
+            cardNumber = cardNumber.toString().trim();
+
             for (var k in p) {
                 if (cardNumber.indexOf(k) === 0) {
                     return p[k];
@@ -36,7 +47,14 @@ var cc = {
             return false;
         }
         var requiredLength = (cardType === 'American Express' ? 4 : 3);
-        return securityCode && securityCode.toString().replace(/\D+/g, '').length === requiredLength;
+
+        if(typeof securityCode === "string" || typeof securityCode === "number") {
+            if(securityCode.toString().replace(/\D+/g, '').length === requiredLength) {
+                return true;
+            }
+        }
+
+        return false;
     },
     isExpiryValid:function (expiryMonth, expiryYear) {
         if (!expiryMonth || !expiryYear) {
@@ -80,8 +98,9 @@ var cc = {
             noDataError(callback, 'You need to call balanced.init first');
             return;
         }
-        var requiredKeys = ['card_number', 'expiration_month',
-            'expiration_year'];
+        var requiredKeys = [
+            'card_number', 'expiration_month', 'expiration_year'
+        ];
         var errors = validate(data, requiredKeys, cc.validate);
         var ec = 0;
         for (var p in errors) {
@@ -96,7 +115,6 @@ var cc = {
         } else {
             var uri = _marketplace_uri + '/cards';
             var payload = preparePayload(data);
-
             sendWhenReady(uri, payload, callback);
         }
     }
@@ -104,9 +122,11 @@ var cc = {
 
 var em = {
     validate:function (emailAddress) {
-        var match = emailAddress &&
-            emailAddress.match(/[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+(?:\.[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+)*@(?:[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?/i);
-        return match && match.toString() === emailAddress;
+        if(emailAddress && emailAddress.match(/[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+(?:\.[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+)*@(?:[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?/i)) {
+            return true;
+        }
+
+        return false;
     }
 };
 
@@ -136,7 +156,7 @@ var ba = {
 
         routingNumber = routingNumber.join('');
 
-        if (!routingNumber || routingNumber.length != 9) {
+        if (!routingNumber || routingNumber.length !== 9) {
             return false;
         }
 
@@ -223,7 +243,7 @@ balanced = {
 
 var server = 'https://js.balancedpayments.com',
     proxy = server + '/proxy.html',
-    _marketplace_uri,
+    _markplace_uri,
     MARKETPLACE_URI_REGEX = '/v1/marketplaces/(\\w|-)+',
     ROUTING_NUMBER_URI = '/v1/bank_accounts/routing_numbers/',
     validate = function (details, requiredKeys, validationMethod) {
