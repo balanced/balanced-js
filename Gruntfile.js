@@ -11,7 +11,7 @@ module.exports = function (grunt) {
                     banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
                     footer: '\n\n/*' + grunt.file.read('license.txt') + '*/',
                     mangle: false,
-                    beautify: false,
+                    beautify: true,
                     wrap: 'balanced'
                 },
                 files: {
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
                 options: {
                     banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
                     mangle: false,
-                    beautify: false
+                    beautify: true
                 },
                 files: {
                     'build/balanced-proxy.js': [
@@ -181,17 +181,22 @@ module.exports = function (grunt) {
                     'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
                 }
             },
-//            cached: {
-//                headers: {
-//                    'Cache-Control': 'public, max-age=86400'
-//                },
-//                upload: [
-//                    {
-//                        src: 'dist/js/*',
-//                        dest: 'js/'
-//                    }
-//                ]
-//            },
+            cached: {
+                headers: {
+                    'Cache-Control': 'Cache-Control: public, must-revalidate, proxy-revalidate, max-age=31536000',
+                    'Pragma': 'public'
+                },
+                upload: [
+                    {
+                        src: 'build/balanced.js',
+                        dest: 'balanced.js'
+                    },
+                    {
+                        src: 'build/proxy.html',
+                        dest: 'proxy.html'
+                    }
+                ]
+            },
             not_cached: {
                 headers: {
                     'Cache-Control': 'max-age=60'
@@ -246,5 +251,5 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['clean', 'build', 'copy:test', 'concat:test', 'connect:test', 'karma']);
 
     // Deploy task
-    grunt.registerTask('deploy', ['clean', 'build', 's3']);
+    grunt.registerTask('deploy', ['clean', 'build', 's3:cached']);
 };
