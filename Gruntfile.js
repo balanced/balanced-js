@@ -183,7 +183,7 @@ module.exports = function (grunt) {
             },
             cached: {
                 headers: {
-                    'Cache-Control': 'Cache-Control: public, must-revalidate, proxy-revalidate, max-age=31536000',
+                    'Cache-Control': 'public, must-revalidate, proxy-revalidate, max-age=31536000',
                     'Pragma': 'public'
                 },
                 upload: [
