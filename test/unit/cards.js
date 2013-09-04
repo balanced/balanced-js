@@ -1,5 +1,8 @@
 module('balanced.js.cards', {
     setup: function () {
+        balanced.init({
+            server: 'http://localhost:3000'
+        });
     },
 
     teardown: function () {
@@ -472,5 +475,52 @@ test('validate', function (assert) {
 
     for(var i = 0; i < tests.length; i++) {
         assert.equal(Object.keys(balanced.card.validate(tests[i])).length, tests[i].expected_length, "Test #" + (i + 1));
+    }
+});
+
+asyncTest('create', 4, function(assert) {
+    var count = 0;
+
+    function callback(response) {
+        ////
+        // We expect a 404
+        ////
+        assert.equal(response.status, 404);
+        count++;
+
+        if(count === 3) {
+            start();
+        }
+    }
+
+    var tests = [
+        {
+            number: '4111111111111111',
+            expiration_month: 1,
+            expiration_year: 2030,
+            security_code: 123,
+        },
+        {
+            number: '343434343434343',
+            expiration_month: '1',
+            expiration_year: 2030,
+            expected_length: 0
+        },
+        {
+            number: '6011111111111117',
+            expiration_month: '1',
+            expiration_year: '2030',
+            security_code: 123,
+        },
+        {
+            number: '378734493671000',
+            expiration_month: '1',
+            expiration_year: 2030
+        }
+
+    ];
+
+    for(var i = 0; i < tests.length; i++) {
+        balanced.card.create(tests[i], callback);
     }
 });

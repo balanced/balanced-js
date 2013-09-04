@@ -1,5 +1,8 @@
 module('balanced.js.bank_accounts', {
     setup: function () {
+        balanced.init({
+            server: 'http://localhost:3000'
+        });
     },
 
     teardown: function () {
@@ -105,10 +108,13 @@ asyncTest('create', 3, function(assert) {
     var count = 0;
 
     function callback(response) {
-        console.log(response);
-        assert.equal(true, true);
+        ////
+        // We expect a 404
+        ////
+        assert.equal(response.status, 404);
+        count++;
 
-        if(count === 3) {
+        if(count === 2) {
             start();
         }
     }

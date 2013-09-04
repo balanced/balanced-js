@@ -15,7 +15,7 @@ $(document).ready(function () {
             security_code: $('#ex-csc').val()
         };
 
-        // Tokenize card
+        // Tokenize credit card
         balanced.card.create(payload, function (response) {
             $('#response .panel-body pre').html(JSON.stringify(response, false, 4));
             $('#response').slideDown(300);

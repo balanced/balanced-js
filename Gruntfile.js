@@ -1,14 +1,17 @@
 /*jshint camelcase: false */
 /*global module:false */
 module.exports = function (grunt) {
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         uglify: {
             js: {
                 options: {
-                    banner: '/*\n' + grunt.file.read('license.txt') + '\n*/\n\n////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
+                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
+                    footer: '\n\n/*' + grunt.file.read('license.txt') + '*/',
                     mangle: false,
-                    beautify: true,
+                    beautify: false,
                     wrap: 'balanced'
                 },
                 files: {
@@ -24,7 +27,7 @@ module.exports = function (grunt) {
                 options: {
                     banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
                     mangle: false,
-                    beautify: true
+                    beautify: false
                 },
                 files: {
                     'build/balanced-proxy.js': [
@@ -62,8 +65,7 @@ module.exports = function (grunt) {
             },
             example: {
                 src: [
-                    'build/index.html',
-                    'build/index.js'
+                    'build/example'
                 ]
             },
             test: {
@@ -75,12 +77,19 @@ module.exports = function (grunt) {
         },
 
         connect: {
-            proxy: {
+            keepalive: {
                 options: {
                     port: 3000,
                     hostname: '*',
                     base: 'build',
                     keepalive: true
+                }
+            },
+            test: {
+                options: {
+                    port: 3000,
+                    hostname: '*',
+                    base: 'build'
                 }
             }
         },
@@ -88,9 +97,7 @@ module.exports = function (grunt) {
         concat: {
             test: {
                 src: [
-                    'test/lib/*.js',
-                    'test/unit/**/*.js',
-                    'test/integration/**/*.js'
+                    'test/unit/**/*.js'
                 ],
                 dest: 'build/test/js/tests.js'
             }
@@ -103,7 +110,7 @@ module.exports = function (grunt) {
                         cwd: 'example/',
                         expand: true,
                         src: ['**'],
-                        dest: 'build/'
+                        dest: 'build/example'
                     }
                 ]
             },
@@ -129,43 +136,39 @@ module.exports = function (grunt) {
             },
         },
 
-//        jshint: {
-//            all: [
-//                'src/**/*.js'
-//            ],
-//            options: {
-//                jshintrc: '.jshintrc'
-//            },
-//            test: {
-//                files: {
-//                    src: [
-//                        'test/**/*.js',
-//                        '!test/support/lib/*.*',
-//                        '!test/support/*.js'
-//                    ],
-//                },
-//                options: {
-//                    jshintrc: 'test/.jshintrc'
-//                }
-//            }
-//        },
-
-        qunit: {
-            options: {
-                '--web-security': 'no',
-                timeout: 60000,
-                coverage: {
-                    src: ['build/balanced.js'],
-                    instrumentedFiles: 'temp/',
-                    htmlReport: 'report/coverage',
-                    coberturaReport: 'report/',
-                    linesThresholdPct: 70,
-                    statementsThresholdPct: 70,
-                    functionsThresholdPct: 70,
-                    branchesThresholdPct: 70
+        karma: {
+            unit: {
+                options: {
+                    frameworks: [
+                        'qunit'
+                    ],
+                    files: [
+                        'build/test/js/sinon.js',
+                        'build/test/js/testconfig.js',
+                        'build/balanced.js',
+                        'build/test/js/tests.js'
+                    ],
+                    preprocessors: {
+                        'build/balanced.js': [
+                            'coverage'
+                        ]
+                    },
+                    reporters: [
+                        'progress',
+                        'coverage'
+                    ],
+                    coverageReporter: {
+                        type: 'html',
+                        dir: 'report'
+                    },
+                    port: 9876,
+                    colors: true,
+                    autoWatch: false,
+                    browsers: ['Chrome', 'Firefox'],
+                    captureTimeout: 60000,
+                    singleRun: true
                 }
-            },
-            all: ['build/test/runner.html']
+            }
         },
 
         s3: {
@@ -208,7 +211,7 @@ module.exports = function (grunt) {
 
         open: {
             serve: {
-                path: 'http://localhost:3000',
+                path: 'http://localhost:3000/example/index.html',
                 app: 'Google Chrome'
             }
         }
@@ -216,6 +219,7 @@ module.exports = function (grunt) {
     });
 
     // Load plugins
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-html-build');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -236,10 +240,10 @@ module.exports = function (grunt) {
     grunt.registerTask('clean', 'purge');
 
     // Serve tasks
-    grunt.registerTask('serve', ['clean', 'build', 'copy:example', 'open:serve', 'connect:proxy']);
+    grunt.registerTask('serve', ['clean', 'build', 'copy:example', 'open:serve', 'connect:keepalive']);
 
     // Test task
-    grunt.registerTask('test', ['clean', 'build', 'copy:test', 'concat:test', 'qunit']);
+    grunt.registerTask('test', ['clean', 'build', 'copy:test', 'concat:test', 'connect:test', 'karma']);
 
     // Deploy task
     grunt.registerTask('deploy', ['clean', 'build', 's3']);
