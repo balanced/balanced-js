@@ -1,3 +1,12 @@
+////
+// Required for ie < 9 support
+////
+if (!String.prototype.trim) {
+    String.prototype.trim=function() {
+        return this.replace(/^\s+|\s+$/g, '');
+    };
+}
+
 var cc = {
     isCardNumberValid:function (cardNumber) {
         if (!cardNumber) {
@@ -22,6 +31,8 @@ var cc = {
         p['6'] = 'Discover Card';
 
         if (cardNumber) {
+            cardNumber = cardNumber.toString().trim();
+
             for (var k in p) {
                 if (cardNumber.indexOf(k) === 0) {
                     return p[k];
@@ -36,7 +47,14 @@ var cc = {
             return false;
         }
         var requiredLength = (cardType === 'American Express' ? 4 : 3);
-        return securityCode && securityCode.toString().replace(/\D+/g, '').length === requiredLength;
+
+        if(typeof securityCode === "string" || typeof securityCode === "number") {
+            if(securityCode.toString().replace(/\D+/g, '').length === requiredLength) {
+                return true;
+            }
+        }
+
+        return false;
     },
     isExpiryValid:function (expiryMonth, expiryYear) {
         if (!expiryMonth || !expiryYear) {
@@ -104,9 +122,11 @@ var cc = {
 
 var em = {
     validate:function (emailAddress) {
-        var match = emailAddress &&
-            emailAddress.match(/[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+(?:\.[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+)*@(?:[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?/i);
-        return match && match.toString() === emailAddress;
+        if(emailAddress && emailAddress.match(/[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+(?:\.[a-z0-9!#$%&'*+\/=?\^_`{|}~\-]+)*@(?:[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?/i)) {
+            return true;
+        }
+
+        return false;
     }
 };
 
@@ -136,7 +156,7 @@ var ba = {
 
         routingNumber = routingNumber.join('');
 
-        if (!routingNumber || routingNumber.length != 9) {
+        if (!routingNumber || routingNumber.length !== 9) {
             return false;
         }
 
