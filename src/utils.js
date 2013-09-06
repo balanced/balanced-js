@@ -10,7 +10,7 @@ var frame = null,
     capabilities = {
         system_timezone: -(new Date()).getTimezoneOffset() / 60,
         user_agent: navigator.userAgent,
-        language: window.navigator.userLanguage || window.navigator.language
+        language: navigator.userLanguage || navigator.language
     };
 
 var initIFrame = function () {
