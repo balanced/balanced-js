@@ -189,6 +189,14 @@ module.exports = function (grunt) {
                 upload: [
                     {
                         src: 'build/balanced.js',
+                        dest: 'balanced.js'
+                    },
+                    {
+                        src: 'build/proxy.html',
+                        dest: 'proxy.html'
+                    },
+                    {
+                        src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
                     },
                     {
@@ -202,6 +210,14 @@ module.exports = function (grunt) {
                     'Cache-Control': 'max-age=60'
                 },
                 upload: [
+                    {
+                        src: 'build/balanced.js',
+                        dest: 'balanced.js'
+                    },
+                    {
+                        src: 'build/proxy.html',
+                        dest: 'proxy.html'
+                    },
                     {
                         src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
