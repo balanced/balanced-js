@@ -346,8 +346,10 @@ function make_url(path, data) {
 
 function make_callback(callback) {
     var called_back = false;
+
     function ret(data) {
         if(called_back) { return; }
+
         if(!data || !data.status || data.status >= 400) {
             callback(data && data.body ? JSON.parse(data.body) : {
                 description: "Unable to connect to the balanced servers",
@@ -359,15 +361,22 @@ function make_callback(callback) {
                 extras: {}
             });
 
+            called_back = true;
+
             return;
         }
+
         var body = JSON.parse(data.body);
+        called_back = true;
+
         if(!('href' in body)) {
             callback(body);
             return;
         }
+
         callback(null, body);
     }
+
     setTimeout(ret, 60000);
     return ret;
 }
