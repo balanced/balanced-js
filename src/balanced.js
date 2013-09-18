@@ -14,7 +14,7 @@ function validateData (requiredKeys, data, errors) {
 }
 
 function preparePayload(data) {
-    if(!data.meta) data.meta = {};
+    if(!data.meta) { data.meta = {}; }
     for(var k in capabilities) {
         if(!('capabilities_'+k in data.meta)) {
             data.meta['capabilities_'+k] = capabilities[k];
@@ -24,9 +24,9 @@ function preparePayload(data) {
 }
 
 function addEvent(obj, type, fn) {
-    if (obj.addEventListener)
+    if (obj.addEventListener) {
         obj.addEventListener(type, fn, false);
-    else if (obj.attachEvent) {
+    } else if (obj.attachEvent) {
         obj["e" + type + fn] = fn;
         obj[type + fn] = function () {
             obj["e" + type + fn](window.event);
@@ -80,6 +80,20 @@ function validate (details, requiredKeys, validationMethod) {
     }
     return errors;
 }
+
+function noDataError(callback, message) {
+    var m = (message) ? message : 'No data supplied';
+
+    if (!callback) {
+        throw m;
+    } else {
+        callback({
+            error:[m],
+            status:400
+        });
+    }
+}
+
 var cc = {
     isCardNumberValid:function (cardNumber) {
         if (!cardNumber) {
@@ -144,7 +158,7 @@ var cc = {
     },
     validate:function (cardData) {
         if (cardData.number) {
-            cardData.number = cardData.number.toString().trim()
+            cardData.number = cardData.number.toString().trim();
         }
         var cardNumber = cardData.number,
         securityCode = cardData.security_code,
@@ -241,8 +255,8 @@ var ba = {
             noDataError(callback);
             return;
         }
-        var uri = ROUTING_NUMBER_URI + routingNumber;
-        sendWhenReady(uri, null, callback, 'GET');
+        var uri = '/bank_accounts/routing_numbers/' + routingNumber;
+        jsonp(make_url(uri, null, make_callback(callback)));
     },
     validateType: function (type) {
         if (!type) {
@@ -273,7 +287,7 @@ var ba = {
     }
 };
 
-var root_url = 'https://js.balancedpayments.com'
+var root_url = 'https://js.balancedpayments.com';
 function jsonp(path, callback) {
     var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
     var tag = document.createElement('script');
@@ -285,7 +299,11 @@ function jsonp(path, callback) {
     window[funct] = function(result) {
         try {
             callback(result);
-        } catch(e) { console && console.error && console.error(e); }
+        } catch(e) {
+            if(console && console.error) {
+                console.error(e);
+            }
+        }
         tag.parentNode.removeChild(tag);
     };
 }
@@ -295,7 +313,7 @@ function make_url(path, data) {
 function make_callback(callback) {
     var called_back = false;
     function ret(data) {
-        if(called_back) return;
+        if(called_back) { return; }
         if(!data || !data.status || data.status >= 400) {
             callback(data && data.body ? JSON.parse(data.body) : {
                 status_code: 500,
@@ -317,7 +335,7 @@ function make_callback(callback) {
 ////
 // Load JSON parser for old browsers
 ////
-if(!JSON || !JSON.stringify || JSON.stringify({}) != '{}') {
+if(!JSON || !JSON.stringify) {
     jsonp('https://js.balancedpayments.com/json2.js');
 }
 
