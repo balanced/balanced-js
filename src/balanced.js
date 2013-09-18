@@ -4,15 +4,6 @@ var capabilities = {
     language:navigator.userLanguage || navigator.language
 };
 
-function validateData (requiredKeys, data, errors) {
-    for (var i = 0; i < requiredKeys.length; i++) {
-        var key = requiredKeys[i];
-        if (!data || !(key in data) || !data[key]) {
-            errors[key] = 'Missing field';
-        }
-    }
-}
-
 function preparePayload(data) {
     if(!data.meta) { data.meta = {}; }
     for(var k in capabilities) {
@@ -69,15 +60,36 @@ if (!String.prototype.trim) {
     };
 }
 
-// validation stuff copied out of the old balanced.js
-function validate (details, requiredKeys, validationMethod) {
-    var errors = {};
+function validateData (requiredKeys, data, errors) {
+    for (var i = 0; i < requiredKeys.length; i++) {
+        var key = requiredKeys[i];
+        if (!data || !(key in data) || !data[key]) {
+            errors.push({
+                description: 'Missing field \"' + key + '\"'
+            });
+        }
+    }
+}
 
+// validation stuff copied out of the old balanced.js
+function validate(details, requiredKeys, validationMethod) {
+    var errors = [];
     validateData(requiredKeys, details, errors);
     var additionalErrors = validationMethod(details);
-    for (var k in additionalErrors) {
-        errors[k] = additionalErrors[k];
+    errors = errors.concat(additionalErrors);
+
+    ////
+    // Inject additional properties
+    ////
+    for(var i = 0; i < errors.length; i++) {
+        errors[i].status = "Bad Request";
+        errors[i].category_code = "request";
+        errors[i].additional = null;
+        errors[i].status_code = 400;
+        errors[i].category_type = "request";
+        errors[i].extras = {};
     }
+
     return errors;
 }
 
@@ -88,8 +100,15 @@ function noDataError(callback, message) {
         throw m;
     } else {
         callback({
-            error:[m],
-            status:400
+            errors: {
+                description: m,
+                status: "Bad Request",
+                category_code: "request",
+                additional: null,
+                status_code: 400,
+                category_type: "request",
+                extras: {}
+            }
         });
     }
 }
@@ -164,16 +183,24 @@ var cc = {
         securityCode = cardData.security_code,
         expiryMonth = cardData.expiration_month,
         expiryYear = cardData.expiration_year;
-        var errors = {};
+
+        var errors = [];
         if (!cc.isCardNumberValid(cardNumber)) {
-            errors.number = '"' + cardNumber + '" is not a valid credit card number';
+            errors.push({
+                description: '"' + cardNumber + '" is not a valid credit card number'
+            });
         }
         if (typeof securityCode !== 'undefined' && securityCode !== null && !cc.isSecurityCodeValid(cardNumber, securityCode)) {
-            errors.security_code = '"' + securityCode + '" is not a valid credit card security code';
+            errors.push({
+                description: '"' + securityCode + '" is not a valid credit card security code'
+            });
         }
         if (!cc.isExpiryValid(expiryMonth, expiryYear)) {
-            errors.expiration = '"' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date';
+            errors.push({
+                description : '"' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date'
+            });
         }
+
         return errors;
     },
     create:function (data, callback) {
@@ -188,10 +215,10 @@ var cc = {
             ec++;
             break;
         }
+
         if (ec > 0) {
             callback({
-                error:errors,
-                status:400
+                errors: errors
             });
         } else {
             jsonp(make_url('/jsonp/cards', preparePayload(data)), make_callback(callback));
@@ -214,12 +241,16 @@ var ba = {
     validate:function (accountData) {
         var noun = ('routing_number' in accountData) ? 'routing_number' : 'bank_code';
         var bankCode = accountData[noun];
-        var errors = {};
+        var errors = [];
         if (!ba.validateRoutingNumber(bankCode)) {
-            errors[noun] = '"' + bankCode + '" is not a valid ' + noun.replace('_', ' ');
+            errors.push({
+                description: '"' + bankCode + '" is not a valid ' + noun.replace('_', ' ')
+            });
         }
         if ('type' in accountData && !ba.validateType(accountData.type)) {
-            errors.type = '"' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"';
+            errors.push({
+                description: '"' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"'
+            });
         }
         return errors;
     },
@@ -271,6 +302,7 @@ var ba = {
         }
         var requiredKeys = ['name', 'account_number', 'routing_number'];
         var errors = validate(data, requiredKeys, ba.validate);
+
         var ec = 0;
         for (var p in errors) {
             ec++;
@@ -278,8 +310,7 @@ var ba = {
         }
         if (ec > 0) {
             callback({
-                error:errors,
-                status:400
+                errors: errors
             });
         } else {
             jsonp(make_url('/jsonp/bank_accounts', preparePayload(data)), make_callback(callback));
@@ -318,9 +349,15 @@ function make_callback(callback) {
         if(called_back) { return; }
         if(!data || !data.status || data.status >= 400) {
             callback(data && data.body ? JSON.parse(data.body) : {
+                description: "Unable to connect to the balanced servers",
+                status: "Internal Server Error",
+                category_code: "server-error",
+                additional: null,
                 status_code: 500,
-                description: "Unable to connect to the balanced servers"
+                category_type: "server-error",
+                extras: {}
             });
+
             return;
         }
         var body = JSON.parse(data.body);
