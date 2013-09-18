@@ -335,7 +335,7 @@ function make_callback(callback) {
 ////
 // Load JSON parser for old browsers
 ////
-if(!JSON || !JSON.stringify) {
+if(typeof JSON !== 'object') {
     jsonp('https://js.balancedpayments.com/json2.js');
 }
 
