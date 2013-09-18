@@ -300,16 +300,18 @@ function jsonp(path, callback) {
         try {
             callback(result);
         } catch(e) {
-            if(console && console.error) {
+            if(typeof console !== 'undefined' && console.error) {
                 console.error(e);
             }
         }
         tag.parentNode.removeChild(tag);
     };
 }
+
 function make_url(path, data) {
     return root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
 }
+
 function make_callback(callback) {
     var called_back = false;
     function ret(data) {
