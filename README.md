@@ -39,4 +39,8 @@ Creates a node.js connect http web server *(port 3000)* and blocks, waiting for 
 
     grunt test
 
+## Deploying To S3 ##
+
+    grunt deploy
+
 To view coverage reports view html files in `/report`.

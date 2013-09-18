@@ -1,3 +1,65 @@
+var capabilities = {
+    system_timezone:-(new Date()).getTimezoneOffset() / 60,
+    user_agent:navigator.userAgent,
+    language:navigator.userLanguage || navigator.language
+};
+
+function validateData (requiredKeys, data, errors) {
+    for (var i = 0; i < requiredKeys.length; i++) {
+        var key = requiredKeys[i];
+        if (!data || !(key in data) || !data[key]) {
+            errors[key] = 'Missing field';
+        }
+    }
+}
+
+function preparePayload(data) {
+    if(!data.meta) { data.meta = {}; }
+    for(var k in capabilities) {
+        if(!('capabilities_'+k in data.meta)) {
+            data.meta['capabilities_'+k] = capabilities[k];
+        }
+    }
+    return data;
+}
+
+function addEvent(obj, type, fn) {
+    if (obj.addEventListener) {
+        obj.addEventListener(type, fn, false);
+    } else if (obj.attachEvent) {
+        obj["e" + type + fn] = fn;
+        obj[type + fn] = function () {
+            obj["e" + type + fn](window.event);
+        };
+        obj.attachEvent("on" + type, obj[type + fn]);
+    }
+}
+
+var shifted = false;
+
+function icl(e) {
+    e = (e) ? e : window.event;
+    var shifton = false;
+    if (e.shiftKey) {
+        shifton = e.shiftKey;
+    } else if (e.modifiers) {
+        shifton = !!(e.modifiers & 4);
+    }
+    if (shifton) {
+        shifted = true;
+    }
+    return shifted;
+}
+
+addEvent(window, 'keydown', function (e) {
+    if (!capabilities.cl) {
+        capabilities.cl = icl(e);
+    }
+});
+addEvent(window, 'paste', function () {
+    capabilities.ps = true;
+});
+
 ////
 // Required for ie < 9 support
 ////
@@ -5,6 +67,31 @@ if (!String.prototype.trim) {
     String.prototype.trim=function() {
         return this.replace(/^\s+|\s+$/g, '');
     };
+}
+
+// validation stuff copied out of the old balanced.js
+function validate (details, requiredKeys, validationMethod) {
+    var errors = {};
+
+    validateData(requiredKeys, details, errors);
+    var additionalErrors = validationMethod(details);
+    for (var k in additionalErrors) {
+        errors[k] = additionalErrors[k];
+    }
+    return errors;
+}
+
+function noDataError(callback, message) {
+    var m = (message) ? message : 'No data supplied';
+
+    if (!callback) {
+        throw m;
+    } else {
+        callback({
+            error:[m],
+            status:400
+        });
+    }
 }
 
 var cc = {
@@ -67,16 +154,16 @@ var cc = {
         }
         var today = new Date();
         return !(today.getFullYear() > expiryYear ||
-            (today.getFullYear() === expiryYear && today.getMonth() >= expiryMonth));
+                 (today.getFullYear() === expiryYear && today.getMonth() >= expiryMonth));
     },
     validate:function (cardData) {
         if (cardData.number) {
             cardData.number = cardData.number.toString().trim();
         }
         var cardNumber = cardData.number,
-            securityCode = cardData.security_code,
-            expiryMonth = cardData.expiration_month,
-            expiryYear = cardData.expiration_year;
+        securityCode = cardData.security_code,
+        expiryMonth = cardData.expiration_month,
+        expiryYear = cardData.expiration_year;
         var errors = {};
         if (!cc.isCardNumberValid(cardNumber)) {
             errors.number = '"' + cardNumber + '" is not a valid credit card number';
@@ -94,13 +181,7 @@ var cc = {
             noDataError(callback);
             return;
         }
-        if (!initd) {
-            noDataError(callback, 'You need to call balanced.init first');
-            return;
-        }
-        var requiredKeys = [
-            'number', 'expiration_month', 'expiration_year'
-        ];
+        var requiredKeys = ['number', 'expiration_month', 'expiration_year'];
         var errors = validate(data, requiredKeys, cc.validate);
         var ec = 0;
         for (var p in errors) {
@@ -113,9 +194,7 @@ var cc = {
                 status:400
             });
         } else {
-            var uri = '/cards';
-            var payload = preparePayload(data);
-            sendWhenReady(uri, payload, callback);
+            jsonp(make_url('/jsonp/cards', preparePayload(data)), make_callback(callback));
         }
     }
 };
@@ -166,22 +245,18 @@ var ba = {
             d.push(parseInt(a[i], 10));
         }
         return d[8] === (
-                7 * (d[0] + d[3] + d[6]) +
+            7 * (d[0] + d[3] + d[6]) +
                 3 * (d[1] + d[4] + d[7]) +
                 9 * (d[2] + d[5])
-            ) % 10;
+        ) % 10;
     },
     lookupRoutingNumber:function (routingNumber, callback) {
-        if (!initd) {
-            noDataError(callback, 'You need to call balanced.init first');
-            return;
-        }
         if (!routingNumber) {
             noDataError(callback);
             return;
         }
-        var uri = ROUTING_NUMBER_URI + routingNumber;
-        sendWhenReady(uri, null, callback, 'GET');
+        var uri = '/bank_accounts/routing_numbers/' + routingNumber;
+        jsonp(make_url(uri, null, make_callback(callback)));
     },
     validateType: function (type) {
         if (!type) {
@@ -194,14 +269,7 @@ var ba = {
             noDataError(callback);
             return;
         }
-        if (!initd) {
-            noDataError(callback, 'You need to call balanced.init first');
-            return;
-        }
-        var requiredKeys = ['name', 'account_number', 'bank_code'];
-        if (data && 'routing_number' in data) {
-            requiredKeys = ['name', 'account_number', 'routing_number'];
-        }
+        var requiredKeys = ['name', 'account_number', 'routing_number'];
         var errors = validate(data, requiredKeys, ba.validate);
         var ec = 0;
         for (var p in errors) {
@@ -214,55 +282,72 @@ var ba = {
                 status:400
             });
         } else {
-            var uri = '/bank_accounts';
-            var payload = preparePayload(data);
-            sendWhenReady(uri, payload, callback);
+            jsonp(make_url('/jsonp/bank_accounts', preparePayload(data)), make_callback(callback));
         }
     }
 };
 
-balanced = {
-    init:function (params) {
-        params = params || {};
-        if ('server' in params) {
-            server = params.server;
-            proxy = server + '/proxy.html';
+var root_url = 'https://api.balancedpayments.com';
+function jsonp(path, callback) {
+    var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
+    var tag = document.createElement('script');
+    tag.type = 'text/javascript';
+    tag.async = true;
+    tag.src = path.replace('{callback}', funct);
+    var where = document.getElementsByTagName('script')[0];
+    where.parentNode.insertBefore(tag, where);
+    window[funct] = function(result) {
+        try {
+            callback(result);
+        } catch(e) {
+            if(typeof console !== 'undefined' && console.error) {
+                console.error(e);
+            }
         }
-        createProxy(params.mock);
-        if (params.revision) {
-            revision = params.revision;
+        tag.parentNode.removeChild(tag);
+    };
+}
+
+function make_url(path, data) {
+    return root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
+}
+
+function make_callback(callback) {
+    var called_back = false;
+    function ret(data) {
+        if(called_back) { return; }
+        if(!data || !data.status || data.status >= 400) {
+            callback(data && data.body ? JSON.parse(data.body) : {
+                status_code: 500,
+                description: "Unable to connect to the balanced servers"
+            });
+            return;
         }
-        initd = true;
-    },
+        var body = JSON.parse(data.body);
+        if(!('href' in body)) {
+            callback(body);
+            return;
+        }
+        callback(null, body);
+    }
+    setTimeout(ret, 60000);
+    return ret;
+}
+
+////
+// Load JSON parser for old browsers
+////
+if(typeof JSON !== 'object') {
+    jsonp('https://js.balancedpayments.com/json2.js');
+}
+
+global.balanced = {
     card: cc,
     bankAccount: ba,
-    emailAddress: em
+    emailAddress: em,
+    init: function (args) {
+        if('server' in args) {
+            root_url = args.server;
+        }
+    }
 };
-
-var server = 'https://js.balancedpayments.com',
-    proxy = server + '/proxy.html',
-    initd = false,
-    DEFAULT_REVISION = '1.0',
-    revision = DEFAULT_REVISION,
-    ROUTING_NUMBER_URI = '/v1/bank_accounts/routing_numbers/',
-    validate = function (details, requiredKeys, validationMethod) {
-        var errors = {};
-
-        validateData(requiredKeys, details, errors);
-        var additionalErrors = validationMethod(details);
-        for (var k in additionalErrors) {
-            errors[k] = additionalErrors[k];
-        }
-        return errors;
-    },
-    noDataError = function (callback, message) {
-        var m = (message) ? message : 'No data supplied';
-        if (!callback) {
-            throw m;
-        } else {
-            callback({
-                error:[m],
-                status:400
-            });
-        }
-    };

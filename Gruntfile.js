@@ -16,51 +16,29 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'build/<%= pkg.name %>': [
-                        'src/<%= pkg.name %>',
-                        'src/utils.js',
-                        'lib/json2.js',
-                        'lib/xd.js'
+                        'src/<%= pkg.name %>'
                     ]
                 }
             },
-            proxy: {
+            json: {
                 options: {
-                    banner: '////\n// balanced.js proxy\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
-                    mangle: false,
-                    beautify: true
+                    banner: '////\n// json2.js \n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
+                    mangle: true,
+                    beautify: false,
                 },
                 files: {
-                    'build/balanced-proxy.js': [
-                        'src/proxy.js',
-                        'lib/json2.js',
-                        'lib/ajax.js',
-                        'lib/xd.js'
+                    'build/json2.js': [
+                        'lib/json2.js'
                     ]
-                }
-            }
-        },
-
-        htmlbuild: {
-            proxy: {
-                src: 'templates/proxy.html',
-                dest: 'build/proxy.html',
-                options: {
-                    beautify: false,
-                    sections: {
-                        proxyjs: 'build/balanced-proxy.js'
-                    }
                 }
             }
         },
 
         purge: {
             js: {
-                src: 'build/<%= pkg.name %>'
-            },
-            proxy: {
                 src: [
-                    'build/balanced-proxy.js',
-                    'build/proxy.html'
+                    'build/<%= pkg.name %>',
+                    'build/json2.js'
                 ]
             },
             example: {
@@ -192,16 +170,16 @@ module.exports = function (grunt) {
                         dest: 'balanced.js'
                     },
                     {
-                        src: 'build/proxy.html',
-                        dest: 'proxy.html'
+                        src: 'build/json2.js',
+                        dest: 'json2.js'
                     },
                     {
                         src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
                     },
                     {
-                        src: 'build/proxy.html',
-                        dest: '<%= pkg.version %>/proxy.html'
+                        src: 'build/json2.js',
+                        dest: '<%= pkg.version %>/json2.js'
                     }
                 ]
             },
@@ -215,16 +193,16 @@ module.exports = function (grunt) {
                         dest: 'balanced.js'
                     },
                     {
-                        src: 'build/proxy.html',
-                        dest: 'proxy.html'
+                        src: 'build/json2.js',
+                        dest: 'json2.js'
                     },
                     {
                         src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
                     },
                     {
-                        src: 'build/proxy.html',
-                        dest: '<%= pkg.version %>/proxy.html'
+                        src: 'build/json2.js',
+                        dest: '<%= pkg.version %>/json2.js'
                     }
                 ]
             }
@@ -253,7 +231,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-open');
 
     // Build tasks
-    grunt.registerTask('default', ['uglify', 'htmlbuild']);
+    grunt.registerTask('default', 'uglify');
     grunt.registerTask('build', 'default');
 
     // Clean tasks
