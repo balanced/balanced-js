@@ -287,7 +287,7 @@ var ba = {
     }
 };
 
-var root_url = 'https://js.balancedpayments.com';
+var root_url = 'https://api.balancedpayments.com';
 function jsonp(path, callback) {
     var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
     var tag = document.createElement('script');
