@@ -65,7 +65,7 @@ function validateData (requiredKeys, data, errors) {
         var key = requiredKeys[i];
         if (!data || !(key in data) || !data[key]) {
             errors.push({
-                description: 'Missing field \"' + key + '\"'
+                description: 'Invalid field [' + key + '] - Missing field \"' + key + '\"'
             });
         }
     }
@@ -179,25 +179,26 @@ var cc = {
         if (cardData.number) {
             cardData.number = cardData.number.toString().trim();
         }
-        var cardNumber = cardData.number,
+
+        var number = cardData.number,
         securityCode = cardData.security_code,
         expiryMonth = cardData.expiration_month,
         expiryYear = cardData.expiration_year;
 
         var errors = [];
-        if (!cc.isCardNumberValid(cardNumber)) {
+        if (!cc.isCardNumberValid(number)) {
             errors.push({
-                description: '"' + cardNumber + '" is not a valid credit card number'
+                description: 'Invalid field [number] - "' + number + '" is not a valid credit card number'
             });
         }
-        if (typeof securityCode !== 'undefined' && securityCode !== null && !cc.isSecurityCodeValid(cardNumber, securityCode)) {
+        if (typeof securityCode !== 'undefined' && securityCode !== null && !cc.isSecurityCodeValid(number, securityCode)) {
             errors.push({
-                description: '"' + securityCode + '" is not a valid credit card security code'
+                description: 'Invalid field [security_code] - "' + securityCode + '" is not a valid credit card security code'
             });
         }
         if (!cc.isExpiryValid(expiryMonth, expiryYear)) {
             errors.push({
-                description : '"' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date'
+                description : 'Invalid field [expiration_month,expiration_year] - "' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date'
             });
         }
 
@@ -244,12 +245,12 @@ var ba = {
         var errors = [];
         if (!ba.validateRoutingNumber(bankCode)) {
             errors.push({
-                description: '"' + bankCode + '" is not a valid ' + noun.replace('_', ' ')
+                description: 'Invalid field [' + noun + '] - "' + bankCode + '" is not a valid ' + noun.replace('_', ' ')
             });
         }
         if ('type' in accountData && !ba.validateType(accountData.type)) {
             errors.push({
-                description: '"' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"'
+                description: 'Invalid field [type] - "' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"'
             });
         }
         return errors;
