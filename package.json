@@ -1,6 +1,6 @@
 {
     "name": "balanced.js",
-    "version": "1.1.8",
+    "version": "1.1.9",
     "description": "Tokenization of credit cards and bank accounts",
     "repository": "git@github.com:balanced/balanced-js.git",
     "author": "Balanced <dev@balancedpayments.com>",
