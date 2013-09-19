@@ -60,13 +60,31 @@ if (!String.prototype.trim) {
     };
 }
 
+////
+// Yikes
+////
+function buildErrorObject(key, message) {
+    var error = {};
+    var extras = {};
+
+    if(typeof key === "object") {
+        for(var i = 0; i < key.length; i++) {
+            extras[key[i]] = message;
+        }
+    } else {
+        extras[key] = message;
+    }
+
+    error.description = message;
+    error.extras = extras;
+    return error;
+}
+
 function validateData (requiredKeys, data, errors) {
     for (var i = 0; i < requiredKeys.length; i++) {
         var key = requiredKeys[i];
         if (!data || !(key in data) || !data[key]) {
-            errors.push({
-                description: 'Invalid field [' + key + '] - Missing field \"' + key + '\"'
-            });
+            errors.push(buildErrorObject(key, 'Invalid field [' + key + '] - Missing field \"' + key + '\"'));
         }
     }
 }
@@ -87,7 +105,6 @@ function validate(details, requiredKeys, validationMethod) {
         errors[i].additional = null;
         errors[i].status_code = 400;
         errors[i].category_type = "request";
-        errors[i].extras = {};
     }
 
     return errors;
@@ -147,15 +164,15 @@ var cc = {
         }
         return null;
     },
-    isSecurityCodeValid:function (cardNumber, securityCode) {
+    isSecurityCodeValid:function (cardNumber, cvv) {
         var cardType = cc.cardType(cardNumber);
         if (!cardType) {
             return false;
         }
         var requiredLength = (cardType === 'American Express' ? 4 : 3);
 
-        if(typeof securityCode === "string" || typeof securityCode === "number") {
-            if(securityCode.toString().replace(/\D+/g, '').length === requiredLength) {
+        if(typeof cvv === "string" || typeof cvv === "number") {
+            if(cvv.toString().replace(/\D+/g, '').length === requiredLength) {
                 return true;
             }
         }
@@ -181,25 +198,19 @@ var cc = {
         }
 
         var number = cardData.number,
-        securityCode = cardData.security_code,
+        cvv = cardData.cvv,
         expiryMonth = cardData.expiration_month,
         expiryYear = cardData.expiration_year;
 
         var errors = [];
         if (!cc.isCardNumberValid(number)) {
-            errors.push({
-                description: 'Invalid field [number] - "' + number + '" is not a valid credit card number'
-            });
+            errors.push(buildErrorObject('number', 'Invalid field [number] - "' + number + '" is not a valid credit card number'));
         }
-        if (typeof securityCode !== 'undefined' && securityCode !== null && !cc.isSecurityCodeValid(number, securityCode)) {
-            errors.push({
-                description: 'Invalid field [security_code] - "' + securityCode + '" is not a valid credit card security code'
-            });
+        if (typeof cvv !== 'undefined' && cvv !== null && !cc.isSecurityCodeValid(number, cvv)) {
+            errors.push(buildErrorObject('cvv', 'Invalid field [cvv] - "' + cvv + '" is not a valid credit card security code'));
         }
         if (!cc.isExpiryValid(expiryMonth, expiryYear)) {
-            errors.push({
-                description : 'Invalid field [expiration_month,expiration_year] - "' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date'
-            });
+            errors.push(buildErrorObject(['expiration_month', 'expiration_year'], 'Invalid field [expiration_month,expiration_year] - "' + expiryMonth + '-' + expiryYear + '" is not a valid credit card expiration date'));
         }
 
         return errors;
@@ -244,14 +255,10 @@ var ba = {
         var bankCode = accountData[noun];
         var errors = [];
         if (!ba.validateRoutingNumber(bankCode)) {
-            errors.push({
-                description: 'Invalid field [' + noun + '] - "' + bankCode + '" is not a valid ' + noun.replace('_', ' ')
-            });
+            errors.push(buildErrorObject(noun, 'Invalid field [' + noun + '] - "' + bankCode + '" is not a valid ' + noun.replace('_', ' ')));
         }
         if ('type' in accountData && !ba.validateType(accountData.type)) {
-            errors.push({
-                description: 'Invalid field [type] - "' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"'
-            });
+            errors.push(buildErrorObject('type', 'Invalid field [type] - "' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"'));
         }
         return errors;
     },
@@ -376,12 +383,7 @@ function make_callback(callback) {
             body.status_code = data.status;
         }
 
-        if(!('href' in body)) {
-            callback(body);
-            return;
-        }
-
-        callback(null, body);
+        callback(body);
     }
 
     setTimeout(ret, 60000);

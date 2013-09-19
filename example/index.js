@@ -12,7 +12,7 @@ $(document).ready(function () {
             number: $('#cc-number').val(),
             expiration_month: $('#cc-ex-month').val(),
             expiration_year: $('#cc-ex-year').val(),
-            security_code: $('#ex-csc').val()
+            cvv: $('#ex-cvv').val()
         };
 
         // Tokenize credit card
