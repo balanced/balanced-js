@@ -361,35 +361,35 @@ test('validate', function (assert) {
             number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
-            security_code: 123,
+            cvv: 123,
             expected_length: 0
         },
         {
             number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
-            security_code: null,
+            cvv: null,
             expected_length: 0
         },
         {
             number: null,
             expiration_month: 1,
             expiration_year: 2030,
-            security_code: null,
+            cvv: null,
             expected_length: 1
         },
         {
             number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
-            security_code: 123,
+            cvv: 123,
             expected_length: 0
         },
         {
             number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2030,
-            security_code: '',
+            cvv: '',
             expected_length: 1
         },
         {
@@ -402,7 +402,7 @@ test('validate', function (assert) {
             number: '4111111111111111',
             expiration_month: 1,
             expiration_year: 2000,
-            security_code: 123,
+            cvv: 123,
             expected_length: 1
         },
         {
@@ -415,21 +415,21 @@ test('validate', function (assert) {
             expected_length: 2
         },
         {
-            security_code: '1234',
+            cvv: '1234',
             expected_length: 3
         },
         {
             number: '',
             expiration_month: '',
             expiration_year: '',
-            security_code: 'asdff',
+            cvv: 'asdff',
             expected_length: 3
         },
         {
             number: null,
             expiration_month: null,
             expiration_year: null,
-            security_code: null,
+            cvv: null,
             expected_length: 2
         },
         {
@@ -460,14 +460,14 @@ test('validate', function (assert) {
             number: '6011111111111117',
             expiration_month: '1',
             expiration_year: '2030',
-            security_code: 123,
+            cvv: 123,
             expected_length: 0
         },
         {
             number: '6011111111111117',
             expiration_month: '1',
             expiration_year: '2030',
-            security_code: 1234,
+            cvv: 1234,
             expected_length: 1
         }
     ];
@@ -501,7 +501,7 @@ test('validate', function (assert) {
 //             number: '4111111111111111',
 //             expiration_month: 1,
 //             expiration_year: 2030,
-//             security_code: 123,
+//             cvv: 123,
 //         },
 //         {
 //             number: '343434343434343',
@@ -513,7 +513,7 @@ test('validate', function (assert) {
 //             number: '6011111111111117',
 //             expiration_month: '1',
 //             expiration_year: '2030',
-//             security_code: 123,
+//             cvv: 123,
 //         },
 //         {
 //             number: '378734493671000',
