@@ -373,7 +373,7 @@ function make_callback(callback) {
         // Append the status
         ////
         if(typeof data.status !== "undefined") {
-            body.status = data.status;
+            body.status_code = data.status;
         }
 
         if(!('href' in body)) {
