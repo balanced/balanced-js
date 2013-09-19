@@ -366,8 +366,15 @@ function make_callback(callback) {
             return;
         }
 
-        var body = JSON.parse(data.body);
         called_back = true;
+        var body = JSON.parse(data.body);
+
+        ////
+        // Append the status
+        ////
+        if(typeof data.status !== "undefined") {
+            body.status = data.status;
+        }
 
         if(!('href' in body)) {
             callback(body);
