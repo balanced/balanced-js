@@ -1,7 +1,5 @@
 $(document).ready(function () {
-    balanced.init({
-        server: 'http://localhost:3000'
-    });
+    balanced.init();
 
     $('#cc-submit').click(function (e) {
         e.preventDefault();
@@ -46,7 +44,7 @@ $(document).ready(function () {
         $('#cc-number').val('4111111111111111');
         $('#cc-ex-month').val('12');
         $('#cc-ex-year').val('2020');
-        $('#ex-csc').val('123');
+        $('#ex-cvv').val('123');
         $('#ba-name').val('John Hancock');
         $('#ba-number').val('9900000000');
         $('#ba-routing').val('321174851');

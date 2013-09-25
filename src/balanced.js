@@ -402,7 +402,7 @@ global.balanced = {
     bankAccount: ba,
     emailAddress: em,
     init: function (args) {
-        if('server' in args) {
+        if(args && 'server' in args) {
             root_url = args.server;
         }
     }
