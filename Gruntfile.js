@@ -167,14 +167,6 @@ module.exports = function (grunt) {
                 upload: [
                     {
                         src: 'build/balanced.js',
-                        dest: 'balanced.js'
-                    },
-                    {
-                        src: 'build/json2.js',
-                        dest: 'json2.js'
-                    },
-                    {
-                        src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
                     },
                     {
@@ -185,7 +177,8 @@ module.exports = function (grunt) {
             },
             not_cached: {
                 headers: {
-                    'Cache-Control': 'max-age=60'
+                    'Cache-Control': 'max-age=300',
+                    'Pragma': 'public'
                 },
                 upload: [
                     {
@@ -195,14 +188,6 @@ module.exports = function (grunt) {
                     {
                         src: 'build/json2.js',
                         dest: 'json2.js'
-                    },
-                    {
-                        src: 'build/balanced.js',
-                        dest: '<%= pkg.version %>/balanced.js'
-                    },
-                    {
-                        src: 'build/json2.js',
-                        dest: '<%= pkg.version %>/json2.js'
                     }
                 ]
             }
@@ -245,5 +230,5 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['clean', 'build', 'copy:test', 'concat:test', 'connect:test', 'karma']);
 
     // Deploy task
-    grunt.registerTask('deploy', ['clean', 'build', 's3:cached']);
+    grunt.registerTask('deploy', ['clean', 'build', 's3']);
 };
