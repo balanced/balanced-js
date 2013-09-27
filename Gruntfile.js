@@ -1,5 +1,6 @@
 /*jshint camelcase: false */
 /*global module:false */
+
 module.exports = function (grunt) {
 
     grunt.initConfig({
@@ -9,7 +10,7 @@ module.exports = function (grunt) {
             js: {
                 options: {
                     banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
-                    footer: '\n\n/*' + grunt.file.read('license.txt') + '*/',
+                    footer: '\n\n/*\n' + grunt.file.read('license.txt') + '\n*/',
                     mangle: false,
                     beautify: true,
                     wrap: 'balanced'
@@ -159,7 +160,7 @@ module.exports = function (grunt) {
                     'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
                 }
             },
-            cached: {
+            fullyVersionized: {
                 headers: {
                     'Cache-Control': 'public, must-revalidate, proxy-revalidate, max-age=31536000',
                     'Pragma': 'public'
@@ -175,7 +176,23 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            not_cached: {
+            semiVersionized: {
+                headers: {
+                    'Cache-Control': 'max-age=300',
+                    'Pragma': 'public'
+                },
+                upload: [
+                    {
+                        src: 'build/balanced.js',
+                        dest: '<%= pkg.versionMajor %>/balanced.js'
+                    },
+                    {
+                        src: 'build/json2.js',
+                        dest: '<%= pkg.versionMajor %>/json2.js'
+                    }
+                ]
+            },
+            latest: {
                 headers: {
                     'Cache-Control': 'max-age=300',
                     'Pragma': 'public'
