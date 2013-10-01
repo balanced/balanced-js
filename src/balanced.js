@@ -42,6 +42,19 @@ function icl(e) {
     return shifted;
 }
 
+function isEmpty(obj) {
+    // null and undefined are empty
+    if (obj == null) return true;
+
+    for (var key in obj) {
+        if (hasOwnProperty.call(obj, key)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 addEvent(window, 'keydown', function (e) {
     if (!capabilities.cl) {
         capabilities.cl = icl(e);
@@ -222,13 +235,8 @@ var cc = {
         }
         var requiredKeys = ['number', 'expiration_month', 'expiration_year'];
         var errors = validate(data, requiredKeys, cc.validate);
-        var ec = 0;
-        for (var p in errors) {
-            ec++;
-            break;
-        }
 
-        if (ec > 0) {
+        if (!isEmpty(errors)) {
             callback({
                 errors: errors
             });
@@ -311,12 +319,7 @@ var ba = {
         var requiredKeys = ['name', 'account_number', 'routing_number'];
         var errors = validate(data, requiredKeys, ba.validate);
 
-        var ec = 0;
-        for (var p in errors) {
-            ec++;
-            break;
-        }
-        if (ec > 0) {
+        if (!isEmpty(errors)) {
             callback({
                 errors: errors
             });
