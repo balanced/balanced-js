@@ -4,7 +4,7 @@ Javascript client library for Balanced that tokenizes cards and bank accounts. R
 
 # Travis #
 
-[![Build Status](https://travis-ci.org/balanced/balanced-js.png)](https://travis-ci.org/balanced/balanced-js)
+[![Build Status](https://travis-ci.org/balanced/balanced-js.png?branch=rev1)](https://travis-ci.org/balanced/balanced-js?branch=rev1)
 
 ## Prerequisites ##
 
