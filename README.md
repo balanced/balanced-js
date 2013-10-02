@@ -2,6 +2,10 @@
 
 Javascript client library for Balanced that tokenizes cards and bank accounts. Read more about tokenization and how balanced.js works at https://docs.balancedpayments.com/current/overview.html#balanced-js.
 
+# Travis #
+
+[![Build Status](https://travis-ci.org/balanced/balanced-js.png)](https://travis-ci.org/balanced/balanced-js)
+
 ## Prerequisites ##
 
     node.js (version >= 0.8.0)
