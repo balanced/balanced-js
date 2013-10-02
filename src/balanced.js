@@ -44,7 +44,9 @@ function icl(e) {
 
 function isEmpty(obj) {
     // null and undefined are empty
-    if (obj == null) return true;
+    if (obj == null) {
+        return true;
+    }
 
     for (var key in obj) {
         if (hasOwnProperty.call(obj, key)) {
