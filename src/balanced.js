@@ -1,11 +1,43 @@
 var capabilities = {
     system_timezone:-(new Date()).getTimezoneOffset() / 60,
     user_agent:navigator.userAgent,
-    language:navigator.userLanguage || navigator.language
+    language:navigator.userLanguage || navigator.language,
+    kp: 0,
+    cli: 0,
+    loaded: (new Date) * 1,
+    screen_width: screen.width,
+    screen_length: screen.height,
+    hist: window.history.length
 };
 
+var cookie = document.cookie.match(/__b=([a-zA-Z0-9\-!\.]+)/);
+if(!cookie) {
+    cookie = (new Date) * 1 + '.' + Math.random().toString().substr(2) + '.0!0';
+}else{
+    cookie = cookie[1];
+}
+cookie = cookie.split('!');
+var cookie_parts = cookie[0].split('.');
+if(cookie_parts.length < 3) {
+    cookie_parts[1] = Math.random().toString().substr(2);
+    cookie_parts[2] = 0;
+}
+cookie_parts[2]++;
+cookie = cookie_parts.join('.') + '!' + cookie[1];
+var cookie_date = new Date;
+cookie_date.setDate(cookie_date.getDate() + 365);
+document.cookie='__b=' + cookie + ' ;expires='+cookie_date.toUTCString();
+
+capabilities.cookie=cookie;
+
+
 function preparePayload(data) {
-    if(!data.meta) { data.meta = {}; }
+    if(!data.meta) {
+	data.meta = {};
+    }
+    capabilities.submitted = (new Date) * 1;
+    capabilities.scrollX = window.scrollX;
+    capabilities.scrollY = window.scrollY;
     for(var k in capabilities) {
         if(!('capabilities_'+k in data.meta)) {
             data.meta['capabilities_'+k] = capabilities[k];
@@ -61,9 +93,13 @@ addEvent(window, 'keydown', function (e) {
     if (!capabilities.cl) {
         capabilities.cl = icl(e);
     }
+    capabilities.kp++;
 });
 addEvent(window, 'paste', function () {
     capabilities.ps = true;
+});
+addEvent(window, 'click', function () {
+    capabilities.cli++;
 });
 
 ////

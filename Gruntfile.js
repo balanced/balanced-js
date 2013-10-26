@@ -143,7 +143,7 @@ module.exports = function (grunt) {
                     port: 9876,
                     colors: true,
                     autoWatch: false,
-                    browsers: ['Firefox'],
+                    browsers: ['Firefox', 'Chrome'],
                     captureTimeout: 60000,
                     singleRun: true
                 }
