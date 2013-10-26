@@ -398,8 +398,10 @@ function make_callback(callback) {
     function ret(data) {
         if(called_back) { return; }
 
-        if(!data || !data.status || data.status >= 400) {
-            callback(data && data.body ? JSON.parse(data.body) : {
+        called_back = true;
+
+        if(!data || !data.status) {
+            callback({
                 description: "Unable to connect to the balanced servers",
                 status: "Internal Server Error",
                 category_code: "server-error",
@@ -409,12 +411,9 @@ function make_callback(callback) {
                 extras: {}
             });
 
-            called_back = true;
-
             return;
         }
 
-        called_back = true;
         var body = JSON.parse(data.body);
 
         ////
