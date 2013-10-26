@@ -1,8 +1,6 @@
 module('balanced.js.bank_accounts', {
     setup: function () {
-        balanced.init({
-            server: 'http://localhost:3000'
-        });
+        // no init required for rev1 balanced.js
     },
 
     teardown: function () {
@@ -103,45 +101,38 @@ test('validate', function (assert) {
     }
 });
 
-////
-// Figure out how to get these working later
-////
-// asyncTest('create', 3, function(assert) {
-//     var count = 0;
+asyncTest('create', 3, function(assert) {
+    var count = 0;
 
-//     function callback(response) {
-//         ////
-//         // We expect a 404
-//         ////
-//         assert.equal(response.status, 404);
-//         count++;
+    function callback(response) {
+        assert.equal(response.status_code, 201);
 
-//         if(count === 2) {
-//             start();
-//         }
-//     }
+        if(++count == 3) {
+            start();
+        }
+    }
 
-//     var tests = [
-//         {
-//             name: 'Mike Smith',
-//             account_number: '121000374',
-//             bank_code: '121000374',
-//             type: 'checking'
-//         },
-//         {
-//             name: 'Mike Smith',
-//             account_number: '121000374',
-//             routing_number: '121000374',
-//             type: 'savings'
-//         },
-//         {
-//             name: 'Mike Smith',
-//             account_number: '121000374',
-//             routing_number: '121000374'
-//         }
-//     ];
+    var tests = [
+        {
+            name: 'Mike Smith',
+            account_number: '121000374',
+            routing_number: '121000374',
+            type: 'checking'
+        },
+        {
+            name: 'Mike Smith',
+            account_number: '121000374',
+            routing_number: '121000374',
+            type: 'savings'
+        },
+        {
+            name: 'Mike Smith',
+            account_number: '121000374',
+            routing_number: '121000374'
+        }
+    ];
 
-//     for(var i = 0; i < tests.length; i++) {
-//         balanced.bankAccount.create(tests[i], callback);
-//     }
-// });
+    for(var i = 0; i < tests.length; i++) {
+        balanced.bankAccount.create(tests[i], callback);
+    }
+});

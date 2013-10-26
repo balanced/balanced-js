@@ -1,8 +1,5 @@
 module('balanced.js.cards', {
     setup: function () {
-        balanced.init({
-            server: 'http://localhost:3000'
-        });
     },
 
     teardown: function () {
