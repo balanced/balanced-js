@@ -9,10 +9,10 @@ module.exports = function (grunt) {
         uglify: {
             js: {
                 options: {
-                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
-                    footer: '\n\n/*\n' + grunt.file.read('license.txt') + '\n*/',
-                    mangle: false,
-                    beautify: true,
+                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// https://github.com/balanced/balanced-js\n////\n\n',
+                    mangle: true,
+                    beautify: false,
+                    compress: true,
                     wrap: 'balanced'
                 },
                 files: {
@@ -26,6 +26,7 @@ module.exports = function (grunt) {
                     banner: '////\n// json2.js \n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
                     mangle: true,
                     beautify: false,
+                    compress: true
                 },
                 files: {
                     'build/json2.js': [
