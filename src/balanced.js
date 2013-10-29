@@ -7,33 +7,34 @@ var capabilities = {
     loaded: (new Date) * 1,
     screen_width: screen.width,
     screen_length: screen.height,
-    hist: window.history.length
+    hist: window.history.length,
+    cookie: (function () {
+        var cookie = document.cookie.match(/__b=([a-zA-Z0-9\-!\.]+)/);
+        if(!cookie) {
+            cookie = (new Date) * 1 + '.' + Math.random().toString().substr(2) + '.0!0';
+        }else{
+            cookie = cookie[1];
+        }
+        cookie = cookie.split('!');
+        var cookie_parts = cookie[0].split('.');
+        if(cookie_parts.length < 3) {
+            cookie_parts[1] = Math.random().toString().substr(2);
+            cookie_parts[2] = 0;
+        }
+        cookie_parts[2]++;
+        cookie = cookie_parts.join('.') + '!' + cookie[1];
+        var cookie_date = new Date;
+        cookie_date.setDate(cookie_date.getDate() + 365);
+        document.cookie='__b=' + cookie + ' ;expires='+cookie_date.toUTCString();
+
+        return cookie;
+    })(),
 };
-
-var cookie = document.cookie.match(/__b=([a-zA-Z0-9\-!\.]+)/);
-if(!cookie) {
-    cookie = (new Date) * 1 + '.' + Math.random().toString().substr(2) + '.0!0';
-}else{
-    cookie = cookie[1];
-}
-cookie = cookie.split('!');
-var cookie_parts = cookie[0].split('.');
-if(cookie_parts.length < 3) {
-    cookie_parts[1] = Math.random().toString().substr(2);
-    cookie_parts[2] = 0;
-}
-cookie_parts[2]++;
-cookie = cookie_parts.join('.') + '!' + cookie[1];
-var cookie_date = new Date;
-cookie_date.setDate(cookie_date.getDate() + 365);
-document.cookie='__b=' + cookie + ' ;expires='+cookie_date.toUTCString();
-
-capabilities.cookie=cookie;
 
 
 function preparePayload(data) {
     if(!data.meta) {
-	data.meta = {};
+        data.meta = {};
     }
     capabilities.submitted = (new Date) * 1;
     capabilities.scrollX = window.scrollX;

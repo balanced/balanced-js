@@ -10,9 +10,10 @@ module.exports = function (grunt) {
             js: {
                 options: {
                     banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
-                    footer: '\n\n/*\n' + grunt.file.read('license.txt') + '\n*/',
-                    mangle: false,
-                    beautify: true,
+                    //footer: '\n\n/*\n' + grunt.file.read('license.txt') + '\n*/',
+                    mangle: true,
+                    beautify: false,
+		    compress: true,
                     wrap: 'balanced'
                 },
                 files: {
@@ -26,6 +27,7 @@ module.exports = function (grunt) {
                     banner: '////\n// json2.js \n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n////\n\n',
                     mangle: true,
                     beautify: false,
+		    compress: true
                 },
                 files: {
                     'build/json2.js': [
@@ -143,7 +145,7 @@ module.exports = function (grunt) {
                     port: 9876,
                     colors: true,
                     autoWatch: false,
-                    browsers: ['Firefox', 'Chrome'],
+                    browsers: ['Firefox'],
                     captureTimeout: 60000,
                     singleRun: true
                 }

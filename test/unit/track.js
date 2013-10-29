@@ -7,5 +7,5 @@ module('balanced.js.cards', {
 });
 
 test('track', function () {
-    notEqual(-1, document.cookie.indexOf('__b'));
+    notEqual(-1, document.cookie.indexOf('__b='));
 });
