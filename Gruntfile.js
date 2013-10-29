@@ -164,7 +164,7 @@ module.exports = function (grunt) {
                     port: 9876,
                     colors: true,
                     autoWatch: false,
-                    browsers: ['Chrome', 'Firefox'],
+                    browsers: ['Firefox'],
                     captureTimeout: 60000,
                     singleRun: true
                 }
@@ -216,8 +216,7 @@ module.exports = function (grunt) {
 
         open: {
             serve: {
-                path: 'http://localhost:3000/example/index.html',
-                app: 'Google Chrome'
+                path: 'http://localhost:3000/example/index.html'
             }
         }
 
