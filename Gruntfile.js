@@ -216,8 +216,7 @@ module.exports = function (grunt) {
 
         open: {
             serve: {
-                path: 'http://localhost:3000/example/index.html',
-                app: 'Google Chrome'
+                path: 'http://localhost:3000/example/index.html'
             }
         }
 

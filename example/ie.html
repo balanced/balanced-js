@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script type="text/javascript" src="/balanced.js"></script>
+    <script type="/example/json2.js"></script>
+  </head>
+  <body>
+    <script>
+      balanced.init('/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',{
+      //server: 'http://localhost:3000'
+      });
+      setTimeout(function () {
+      balanced.card.create({
+      card_number: '4111111111111111',
+      expiration_month: 12,
+      expiration_year: 2015,
+      security_code: '123'
+      }, function (response) {
+      alert(JSON.stringify(response));
+      });
+      }, 5000);
+    </script>
+
+  </body>
+</html>

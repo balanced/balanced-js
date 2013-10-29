@@ -226,7 +226,7 @@ balanced = {
         params = params || {};
         if ('server' in params) {
             server = params.server;
-            proxy = server + '/proxy.html';
+            proxy = server + '/proxy';
         }
         try {
             _marketplace_uri = new RegExp(MARKETPLACE_URI_REGEX).exec(marketplace_uri)[0];
@@ -242,7 +242,7 @@ balanced = {
 };
 
 var server = 'https://js.balancedpayments.com',
-    proxy = server + '/proxy.html',
+    proxy = server + '/proxy',
     _markplace_uri,
     MARKETPLACE_URI_REGEX = '/v1/marketplaces/(\\w|-)+',
     ROUTING_NUMBER_URI = '/v1/bank_accounts/routing_numbers/',
