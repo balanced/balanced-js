@@ -313,7 +313,7 @@ var ba = {
         if (!routingNumber) {
             return false;
         }
-        routingNumber = routingNumber.match(/\d+/g);
+        routingNumber = routingNumber.toString().match(/\d+/g);
 
         if (!routingNumber) {
             return false;
