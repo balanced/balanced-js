@@ -26,6 +26,10 @@ test('validateRoutingNumber', function (assert) {
             expected: false
         },
         {
+            routing_number: 121000374,
+            expected: true
+        },
+        {
             routing_number: null,
             expected: false
         },
