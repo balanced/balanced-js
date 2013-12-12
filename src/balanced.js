@@ -273,7 +273,7 @@ var cc = {
         return errors;
     },
     create:function (data, callback) {
-        if (arguments.length < 2) {
+        if (!data || !callback) {
             noDataError(callback);
             return;
         }
@@ -342,7 +342,7 @@ var ba = {
         ) % 10;
     },
     lookupRoutingNumber:function (routingNumber, callback) {
-        if (arguments.length < 2) {
+        if (!routingNumber || !callback) {
             noDataError(callback);
             return;
         }
@@ -356,7 +356,7 @@ var ba = {
         return ba.types.indexOf(type) >= 0;
     },
     create:function (data, callback) {
-        if (arguments.length < 2) {
+        if (!data || !callback) {
             noDataError(callback);
             return;
         }
