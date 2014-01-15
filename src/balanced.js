@@ -183,6 +183,7 @@ function noDataError(callback, message) {
 }
 
 var cc = {
+  
     isCardNumberValid:function (cardNumber) {
         if (!cardNumber) {
             return false;
@@ -204,6 +205,8 @@ var cc = {
         p['34'] = p['37'] = 'American Express';
         p['4'] = 'VISA';
         p['6'] = 'Discover Card';
+        p['35'] = 'JCB';
+        p['30'] = p['36'] = p['38'] = 'Diners Club';
 
         if (cardNumber) {
             cardNumber = cardNumber.toString().trim();

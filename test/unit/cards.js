@@ -159,6 +159,14 @@ test('cardType', function (assert) {
             expected: 'VISA'
         },
         {
+            number: '30569309025904',
+            expected: 'Diners Club'
+        },
+        {
+            number: '3530111333300000',
+            expected: 'JCB'
+        },
+        {
             number: 'no numbers in hurr',
             expected: null
         },
@@ -245,6 +253,26 @@ test('isSecurityCodeValid', function (assert) {
         {
             number: '378734493671000',
             csc: null,
+            expected: false
+        },
+        {
+            number: '3530111333300000',
+            csc: '123',
+            expected: true
+        },
+        {
+            number: '3530111333300000',
+            csc: '12',
+            expected: false
+        },
+        {
+            number: '30569309025904',
+            csc: '123',
+            expected: true
+        },
+        {
+            number: '30569309025904',
+            csc: '12',
             expected: false
         },
         {
@@ -467,6 +495,20 @@ test('validate', function (assert) {
             expiration_year: '2030',
             cvv: 1234,
             expected_length: 1
+        },
+        {
+            number: '3530111333300000',
+            expiration_month: '1',
+            expiration_year: '2030',
+            cvv: '123',
+            expected_length: 0
+        },
+        {
+            number: '30569309025904',
+            expiration_month: '1',
+            expiration_year: '2030',
+            cvv: '123',
+            expected_length: 0
         }
     ];
 
@@ -477,13 +519,13 @@ test('validate', function (assert) {
 });
 
 
-asyncTest('create', 4, function(assert) {
+asyncTest('create', 6, function(assert) {
     var count = 0;
 
     function callback(response) {
         assert.equal(response.status_code, 201);
 
-        if(++count == 4) {
+        if(++count == 6) {
             start();
         }
 
@@ -512,8 +554,19 @@ asyncTest('create', 4, function(assert) {
             number: '378734493671000',
             expiration_month: '1',
             expiration_year: 2030
+        },
+        {
+            number: '3530111333300000',
+            expiration_month: '1',
+            expiration_year: '2030',
+            cvv: 123
+        },
+        {
+            number: '30569309025904',
+            expiration_month: '1',
+            expiration_year: '2030',
+            cvv: '123'
         }
-
     ];
 
     for(var i = 0; i < tests.length; i++) {
