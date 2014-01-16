@@ -10,8 +10,8 @@ module.exports = function (grunt) {
             js: {
                 options: {
                     banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// https://github.com/balanced/balanced-js\n////\n\n',
-                    mangle: true,
-                    beautify: false,
+                    mangle: false,
+                    beautify: true,
                     compress: true,
                     wrap: 'balanced'
                 },
