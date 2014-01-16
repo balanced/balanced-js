@@ -161,6 +161,14 @@ test('cardType', function (assert) {
             expected: 'VISA'
         },
         {
+            card_number: '30569309025904',
+            expected: 'Diners Club'
+        },
+        {
+            card_number: '3530111333300000',
+            expected: 'JCB'
+        },
+        {
             card_number: 'no numbers in hurr',
             expected: null
         },
