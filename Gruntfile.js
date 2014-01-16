@@ -12,11 +12,25 @@ module.exports = function (grunt) {
                     banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// https://github.com/balanced/balanced-js\n////\n\n',
                     mangle: false,
                     beautify: true,
+                    compress: false,
+                    wrap: 'balanced'
+                },
+                files: {
+                    'build/balanced.js': [
+                        'src/<%= pkg.name %>'
+                    ]
+                }
+            },
+            js_min: {
+                options: {
+                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// https://github.com/balanced/balanced-js\n////\n\n',
+                    mangle: true,
+                    beautify: false,
                     compress: true,
                     wrap: 'balanced'
                 },
                 files: {
-                    'build/<%= pkg.name %>': [
+                    'build/balanced.min.js': [
                         'src/<%= pkg.name %>'
                     ]
                 }
@@ -171,6 +185,10 @@ module.exports = function (grunt) {
                         src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
                     },
+		    {
+                        src: 'build/balanced.min.js',
+                        dest: '<%= pkg.version %>/balanced.min.js'
+                    },
                     {
                         src: 'build/json2.js',
                         dest: '<%= pkg.version %>/json2.js'
@@ -188,6 +206,10 @@ module.exports = function (grunt) {
                         dest: '<%= pkg.versionMajor %>/balanced.js'
                     },
                     {
+                        src: 'build/balanced.min.js',
+                        dest: '<%= pkg.versionMajor %>/balanced.min.js'
+                    },
+                    {
                         src: 'build/json2.js',
                         dest: '<%= pkg.versionMajor %>/json2.js'
                     }
@@ -202,6 +224,10 @@ module.exports = function (grunt) {
                     {
                         src: 'build/balanced.js',
                         dest: 'balanced.js'
+                    },
+		    {
+                        src: 'build/balanced.min.js',
+                        dest: 'balanced.min.js'
                     },
                     {
                         src: 'build/json2.js',
