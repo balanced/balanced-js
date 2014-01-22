@@ -7,7 +7,7 @@ module('balanced.js.bank_accounts', {
     }
 });
 
-test('validateRoutingNumber', function (assert) {
+test('isRoutingNumberValid', function (assert) {
     var tests = [
         {
             routing_number: '121000374',
@@ -48,7 +48,7 @@ test('validateRoutingNumber', function (assert) {
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.bankAccount.validateRoutingNumber(tests[i].routing_number), tests[i].expected, "Test #" + (i + 1));
+        assert.equal(balanced.bankAccount.isRoutingNumberValid(tests[i].routing_number), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
