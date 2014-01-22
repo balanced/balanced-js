@@ -308,8 +308,9 @@ var ba = {
             errors.push(buildErrorObject(noun, 'Invalid field [' + noun + '] - "' + bankCode + '" is not a valid ' + noun.replace('_', ' ')));
         }
         var account_type = accountData.type || accountData.account_type;
-        if (('type' in accountData || 'account_type' in accountData) && !ba.validateType(account_type)) {
-            errors.push(buildErrorObject('type', 'Invalid field [type] - "' + account_type + '" must be one of: "' + ba.types.join('", "') + '"'));
+        var type_name = 'type' in accountData ? 'type' : 'account_type';
+        if (accountData[type_name] && !ba.validateType(account_type)) {
+            errors.push(buildErrorObject(type_name, 'Invalid field [' + type_name + '] - "' + account_type + '" must be one of: "' + ba.types.join('", "') + '"'));
         }
         return errors;
     },
