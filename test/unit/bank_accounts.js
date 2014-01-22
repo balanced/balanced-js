@@ -70,38 +70,66 @@ test('validate', function (assert) {
         },
         {
             bank_code: '1210003742',
-            expected_length: 1
+            expected_length: 1,
+            expected_keys: ['bank_code']
         },
         {
             routing_number: '',
-            expected_length: 1
+            expected_length: 1,
+            expected_keys: ['routing_number']
         },
         {
             routing_number: null,
-            expected_length: 1
+            expected_length: 1,
+            expected_keys: ['routing_number']
         },
         {
             routing_number: 'no numbers in hurr',
-            expected_length: 1
+            expected_length: 1,
+            expected_keys: ['routing_number']
         },
         {
             bank_code: ' 121-000374-2 ',
-            expected_length: 1
+            expected_length: 1,
+            expected_keys: ['bank_code']
         },
         {
             routing_number: '121000374',
             type: 'foo',
-            expected_length: 1
+            expected_length: 1,
+            expected_keys: ['type']
+        },
+        {
+            routing_number: '121000374',
+            account_type: 'foo',
+            expected_length: 1,
+            expected_keys: ['account_type']
         },
         {
             routing_number: 'no numbers in hurr',
             type: 'foo',
-            expected_length: 2
+            expected_length: 2,
+            expected_keys: ['type', 'routing_number']
+        },
+        {
+            routing_number: 'no numbers in hurr',
+            account_type: 'foo',
+            expected_length: 2,
+            expected_keys: ['account_type', 'routing_number']
         }
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(Object.keys(balanced.bankAccount.validate(tests[i])).length, tests[i].expected_length, "Test #" + (i + 1));
+        var validationErrors = balanced.bankAccount.validate(tests[i]);
+        assert.equal(Object.keys(validationErrors).length, tests[i].expected_length, "Test #" + (i + 1) + " key count incorrect");
+
+        for (var j = 0; j < validationErrors.length; j++) {
+            var obj = validationErrors[j];
+
+            for (key in obj.extras) {
+                assert.ok(tests[i].expected_keys.indexOf(key) >= 0, "Test #" + (i + 1) + " keys incorrect");
+            }
+        }
     }
 });
 
