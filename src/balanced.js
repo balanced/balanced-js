@@ -234,6 +234,10 @@ var cc = {
 
         return false;
     },
+    // Deprecated. Aliased to isCVVValid
+    isSecurityCodeValid:function (cardNumber, securityCode) {
+      return cc.isCVVValid(cardNumber, securityCode);
+    },
     isExpiryValid:function (expiryMonth, expiryYear) {
         if (!expiryMonth || !expiryYear) {
             return false;
