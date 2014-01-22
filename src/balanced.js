@@ -183,7 +183,7 @@ function noDataError(callback, message) {
 }
 
 var cc = {
-  
+
     isCardNumberValid:function (cardNumber) {
         if (!cardNumber) {
             return false;
@@ -307,8 +307,9 @@ var ba = {
         if (!ba.validateRoutingNumber(bankCode)) {
             errors.push(buildErrorObject(noun, 'Invalid field [' + noun + '] - "' + bankCode + '" is not a valid ' + noun.replace('_', ' ')));
         }
-        if ('type' in accountData && !ba.validateType(accountData.type)) {
-            errors.push(buildErrorObject('type', 'Invalid field [type] - "' + accountData.type + '" must be one of: "' + ba.types.join('", "') + '"'));
+        var account_type = accountData.type || accountData.account_type;
+        if (('type' in accountData || 'account_type' in accountData) && !ba.validateType(account_type)) {
+            errors.push(buildErrorObject('type', 'Invalid field [type] - "' + account_type + '" must be one of: "' + ba.types.join('", "') + '"'));
         }
         return errors;
     },
@@ -366,6 +367,9 @@ var ba = {
                 errors: errors
             });
         } else {
+            if ('type' in data && !'account_type' in data) {
+                data.account_type = data.type;
+            }
             jsonp(make_url('/jsonp/bank_accounts', preparePayload(data)), make_callback(callback));
         }
     }
