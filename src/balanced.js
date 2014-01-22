@@ -304,7 +304,7 @@ var ba = {
         var noun = ('routing_number' in accountData) ? 'routing_number' : 'bank_code';
         var bankCode = accountData[noun];
         var errors = [];
-        if (!ba.validateRoutingNumber(bankCode)) {
+        if (!ba.isRoutingNumberValid(bankCode)) {
             errors.push(buildErrorObject(noun, 'Invalid field [' + noun + '] - "' + bankCode + '" is not a valid ' + noun.replace('_', ' ')));
         }
         var account_type = accountData.type || accountData.account_type;
@@ -314,7 +314,7 @@ var ba = {
         }
         return errors;
     },
-    validateRoutingNumber:function (routingNumber) {
+    isRoutingNumberValid:function (routingNumber) {
         if (!routingNumber) {
             return false;
         }
