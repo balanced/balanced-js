@@ -341,6 +341,10 @@ var ba = {
                 9 * (d[2] + d[5])
         ) % 10;
     },
+    // Deprecated. Aliased to isRoutingNumberValid
+    validateRoutingNumber:function (routingNumber) {
+        return ba.isRoutingNumberValid(routingNumber);
+    },
     lookupRoutingNumber:function (routingNumber, callback) {
         if (!routingNumber) {
             noDataError(callback);
