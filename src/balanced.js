@@ -219,7 +219,7 @@ var cc = {
         }
         return null;
     },
-    isSecurityCodeValid:function (cardNumber, cvv) {
+    isCVVValid:function (cardNumber, cvv) {
         var cardType = cc.cardType(cardNumber);
         if (!cardType) {
             return false;
@@ -233,6 +233,10 @@ var cc = {
         }
 
         return false;
+    },
+    // Deprecated. Aliased to isCVVValid
+    isSecurityCodeValid:function (cardNumber, securityCode) {
+      return cc.isCVVValid(cardNumber, securityCode);
     },
     isExpiryValid:function (expiryMonth, expiryYear) {
         if (!expiryMonth || !expiryYear) {
@@ -261,7 +265,7 @@ var cc = {
         if (!cc.isCardNumberValid(number)) {
             errors.push(buildErrorObject('number', 'Invalid field [number] - "' + number + '" is not a valid credit card number'));
         }
-        if (typeof cvv !== 'undefined' && cvv !== null && !cc.isSecurityCodeValid(number, cvv)) {
+        if (typeof cvv !== 'undefined' && cvv !== null && !cc.isCVVValid(number, cvv)) {
             errors.push(buildErrorObject('cvv', 'Invalid field [cvv] - "' + cvv + '" is not a valid credit card security code'));
         }
         if (!cc.isExpiryValid(expiryMonth, expiryYear)) {

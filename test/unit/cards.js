@@ -199,6 +199,20 @@ test('isSecurityCodeValid', function (assert) {
             number: '4111111111111111',
             csc: 123,
             expected: true
+        }
+    ];
+
+    for(var i = 0; i < tests.length; i++) {
+        assert.equal(balanced.card.isSecurityCodeValid(tests[i].number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
+    }
+});
+
+test('isCVVValid', function (assert) {
+    var tests = [
+        {
+            number: '4111111111111111',
+            csc: 123,
+            expected: true
         },
         {
             number: 4111111111111111,
@@ -303,7 +317,7 @@ test('isSecurityCodeValid', function (assert) {
     ];
 
     for(var i = 0; i < tests.length; i++) {
-        assert.equal(balanced.card.isSecurityCodeValid(tests[i].number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
+        assert.equal(balanced.card.isCVVValid(tests[i].number, tests[i].csc), tests[i].expected, "Test #" + (i + 1));
     }
 });
 
