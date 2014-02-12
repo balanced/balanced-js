@@ -45,7 +45,13 @@ var initIFrame = function () {
     var body = document.getElementsByTagName("body")[0],
         iframe = document.createElement("iframe");
     var frameName = "balancedFrame" + (new Date()).getTime();
-    var src = proxy + "#" + encodeURIComponent(window.location.href);
+    var src;
+    if (window.location.href.indexOf("file:") === 0) {
+        // See https://stackoverflow.com/questions/21716706/balanced-payments-doesnt-seem-to-work-with-phonegap/21741119#21741119
+        src = proxy + "#" + encodeURIComponent("file://");
+    } else {
+        src = proxy + "#" + encodeURIComponent(window.location.href);
+    }
     var attributes = {
         src: src,
         name: frameName,
