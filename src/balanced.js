@@ -419,10 +419,8 @@ var nt = {
                 return;
             }
 
-            var token = {
-                name: network_name,
-                code: event.data
-            }
+            var token = event.data;
+            token.name = network_name;
 
             jsonp(make_url('/jsonp/networks', preparePayload(token)), make_callback(callback));
 
