@@ -282,7 +282,7 @@ module.exports = function (grunt) {
 
     // Build tasks
     grunt.registerTask('default', 'uglify');
-    grunt.registerTask('build', 'default', 'copy:callback');
+    grunt.registerTask('build', ['default', 'copy:callback']);
 
     // Clean tasks
     grunt.renameTask('clean', 'purge');

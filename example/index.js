@@ -43,7 +43,7 @@ $(document).ready(function () {
         
         $('#response').hide();
         
-        balanced.network.tokenize('coinbase', function(response) {
+        balanced.network.create('coinbase', function(response) {
             console.log(response);
         });
     });

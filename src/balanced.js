@@ -394,7 +394,7 @@ var nt = {
             }
         }
     },
-    tokenize: function(network_name, callback) {
+    create: function(network_name, callback) {
         var network = nt.networks[network_name];
         var url = network.url;
         var params = network.params;
