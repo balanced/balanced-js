@@ -419,7 +419,12 @@ var nt = {
                 return;
             }
 
-            jsonp(make_url('/jsonp/network', preparePayload(event.data)), make_callback(callback));
+            var token = {
+                name: network_name,
+                code: event.data
+            }
+
+            jsonp(make_url('/jsonp/networks', preparePayload(token)), make_callback(callback));
 
             dialog.close();
         });        
