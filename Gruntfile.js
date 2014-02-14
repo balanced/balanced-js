@@ -108,6 +108,16 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            callback: {
+                files: [
+                    {
+                        cwd: 'src/',
+                        expand: true,
+                        src: ['callback.html'],
+                        dest: 'build'
+                    }
+                ]
+            },
             test: {
                 files: [
                     {
@@ -267,7 +277,7 @@ module.exports = function (grunt) {
     grunt.registerTask('clean', 'purge');
 
     // Serve tasks
-    grunt.registerTask('serve', ['clean', 'build', 'copy:example', 'open:serve', 'connect:keepalive']);
+    grunt.registerTask('serve', ['clean', 'build', 'copy:callback', 'copy:example', 'open:serve', 'connect:keepalive']);
 
     // Test task
     grunt.registerTask('test', ['clean', 'build', 'copy:test', 'concat:test', 'connect:test', 'karma']);

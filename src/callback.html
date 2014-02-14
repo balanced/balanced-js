@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Auth</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	var code = window.location.href.split("code=")[1];
+	window.opener.postMessage(code, "*");
+</script>
+</body>
+</html>

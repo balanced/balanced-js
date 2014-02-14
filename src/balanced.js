@@ -31,7 +31,6 @@ var capabilities = {
     })(),
 };
 
-
 function preparePayload(data) {
     if(!data.meta) {
         data.meta = {};
@@ -384,6 +383,49 @@ var ba = {
     }
 };
 
+var nt = {
+    networks: {
+        'coinbase': {
+            url: 'https://coinbase.com/oauth/authorize',
+            params: {
+                response_type: 'code',
+                client_id: '050f4c85231a51c147a3fb011e012755d81cdb499cc50b5354b7bcdf9bf805ad',
+                redirect_uri: 'https://js.balancedpayments.com/callback.html'
+            }
+        }
+    },
+    tokenize: function(network_name, callback) {
+        var network = nt.networks[network_name];
+        var url = network.url;
+        var params = network.params;
+        var params_array = [];
+
+        if (params) {
+            for (param in params) {
+                params_array.push(param + "=" + params[param]);
+            }
+            url = url + '?' + params_array.join('&');
+        }
+
+        var dialog = window.open(url, "", "top=400, left=400, width=500, height=550");
+        
+        addEvent(window, "message", function(event) {
+            if(event.origin !== "https://js.balancedpayments.com") {
+                return;
+            }
+
+            if (!event.data) {
+                noDataError(callback);
+                return;
+            }
+
+            jsonp(make_url('/jsonp/network', preparePayload(event.data)), make_callback(callback));
+
+            dialog.close();
+        });        
+    }
+};
+
 var root_url = 'https://api.balancedpayments.com';
 function jsonp(path, callback) {
     var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
@@ -457,6 +499,7 @@ if(typeof JSON !== 'object') {
 global.balanced = {
     card: cc,
     bankAccount: ba,
+    network: nt,
     emailAddress: em,
     init: function (args) {
         if(args && 'server' in args) {
