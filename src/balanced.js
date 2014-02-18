@@ -31,6 +31,10 @@ var capabilities = {
     })(),
 };
 
+
+var root_url = 'https://api.balancedpayments.com',
+marketplace_href = null;
+
 function preparePayload(data) {
     if(!data.meta) {
         data.meta = {};
@@ -385,6 +389,9 @@ var ba = {
 
 var nt = {
     networks: {
+	// TODO: this is currently hard coded
+	// using balanced.configure('/marketplace/MPasdfasdf') will
+	// get the right configs in the future
         'coinbase': {
             url: 'https://coinbase.com/oauth/authorize',
             params: {
@@ -407,8 +414,8 @@ var nt = {
             url = url + '?' + params_array.join('&');
         }
 
-        var dialog = window.open(url, "", "top=400, left=400, width=500, height=550");
-        
+        var dialog = window.open(url, "", "top="+(screen.height/2-275)+", left="+(screen.width/2-250)+", width=500, height=550");
+
         addEvent(window, "message", function(event) {
             if(event.origin !== "https://js.balancedpayments.com") {
                 return;
@@ -422,14 +429,20 @@ var nt = {
             var token = event.data;
             token.name = network_name;
 
+	    dialog.close();
+
             jsonp(make_url('/jsonp/networks', preparePayload(token)), make_callback(callback));
 
             dialog.close();
-        });        
+        });
+    },
+    configure: function () {
+	/*jsonp(make_url('/jsonp/'+marketplace_href+'/configs', {}), function (json) {
+	    nt.network = json;
+	});*/
     }
 };
 
-var root_url = 'https://api.balancedpayments.com';
 function jsonp(path, callback) {
     var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
     var tag = document.createElement('script');
@@ -505,8 +518,19 @@ global.balanced = {
     network: nt,
     emailAddress: em,
     init: function (args) {
-        if(args && 'server' in args) {
-            root_url = args.server;
-        }
+	if(typeof args == 'string') {
+            // going to be the marketplace href to configure the tokens
+	    // not required if only tokenizing cards and bank accounts
+	    marketplace_href = args;
+	} else {
+	    if(args && 'server' in args) {
+		root_url = args.server;
+            }
+	    if(args && 'marketplace_href' in args) {
+		marketplace_href = args.marketplace_href;
+	    }
+	}
+	// TODO: make it grab the configuration for this marketplace
+
     }
 };
