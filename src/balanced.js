@@ -31,6 +31,10 @@ var capabilities = {
     })(),
 };
 
+
+var root_url = 'https://api.balancedpayments.com',
+marketplace_href = null;
+
 function preparePayload(data) {
     if(!data.meta) {
         data.meta = {};
@@ -383,8 +387,11 @@ var ba = {
     }
 };
 
-var nt = {
+var ea = {
     networks: {
+	// TODO: this is currently hard coded
+	// using balanced.configure('/marketplace/MPasdfasdf') will
+	// get the right configs in the future
         'coinbase': {
             url: 'https://coinbase.com/oauth/authorize',
             params: {
@@ -395,7 +402,7 @@ var nt = {
         }
     },
     create: function(network_name, callback) {
-        var network = nt.networks[network_name];
+        var network = ea.networks[network_name];
         var url = network.url;
         var params = network.params;
         var params_array = [];
@@ -407,8 +414,8 @@ var nt = {
             url = url + '?' + params_array.join('&');
         }
 
-        var dialog = window.open(url, "", "top=400, left=400, width=500, height=550");
-        
+        var dialog = window.open(url, "", "top="+(screen.height/2-275)+", left="+(screen.width/2-250)+", width=500, height=550");
+
         addEvent(window, "message", function(event) {
             if(event.origin !== "https://js.balancedpayments.com") {
                 return;
@@ -425,11 +432,15 @@ var nt = {
             jsonp(make_url('/jsonp/external_accounts', preparePayload(token)), make_callback(callback));
 
             dialog.close();
-        });        
+        });
+    },
+    configure: function () {
+	/*jsonp(make_url('/jsonp/'+marketplace_href+'/configs', {}), function (json) {
+	    ea.network = json;
+	});*/
     }
 };
 
-var root_url = 'https://api.balancedpayments.com';
 function jsonp(path, callback) {
     var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
     var tag = document.createElement('script');
@@ -502,11 +513,25 @@ if(typeof JSON !== 'object') {
 global.balanced = {
     card: cc,
     bankAccount: ba,
-    network: nt,
+    externalAccount: ea,
     emailAddress: em,
     init: function (args) {
-        if(args && 'server' in args) {
-            root_url = args.server;
-        }
+	if(typeof args == 'string') {
+            // going to be the marketplace href to configure the tokens
+	    // not required if only tokenizing cards and bank accounts
+	    marketplace_href = args;
+	} else {
+	    if(args && 'server' in args) {
+		root_url = args.server;
+            }
+	    if(args && 'marketplace_href' in args) {
+		marketplace_href = args.marketplace_href;
+	    }
+	    if(args && 'networks' in args) {
+		ea.networks = args.networks;
+	    }
+	}
+	// TODO: make it grab the configuration for this marketplace
+
     }
 };
