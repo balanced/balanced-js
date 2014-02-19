@@ -514,7 +514,7 @@ if(typeof JSON !== 'object') {
     jsonp('https://js.balancedpayments.com/json2.js');
 }
 
-global.balanced = {
+var balanced = global.balanced = {
     root_url: 'https://api.balancedpayments.com',
     card: cc,
     bankAccount: ba,
