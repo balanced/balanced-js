@@ -387,7 +387,7 @@ var ba = {
     }
 };
 
-var nt = {
+var ea = {
     networks: {
 	// TODO: this is currently hard coded
 	// using balanced.configure('/marketplace/MPasdfasdf') will
@@ -402,7 +402,7 @@ var nt = {
         }
     },
     create: function(network_name, callback) {
-        var network = nt.networks[network_name];
+        var network = ea.networks[network_name];
         var url = network.url;
         var params = network.params;
         var params_array = [];
@@ -438,7 +438,7 @@ var nt = {
     },
     configure: function () {
 	/*jsonp(make_url('/jsonp/'+marketplace_href+'/configs', {}), function (json) {
-	    nt.network = json;
+	    ea.network = json;
 	});*/
     }
 };
@@ -515,7 +515,7 @@ if(typeof JSON !== 'object') {
 global.balanced = {
     card: cc,
     bankAccount: ba,
-    network: nt,
+    externalAccount: ea,
     emailAddress: em,
     init: function (args) {
 	if(typeof args == 'string') {
@@ -528,6 +528,9 @@ global.balanced = {
             }
 	    if(args && 'marketplace_href' in args) {
 		marketplace_href = args.marketplace_href;
+	    }
+	    if(args && 'networks' in args) {
+		ea.networks = args.networks;
 	    }
 	}
 	// TODO: make it grab the configuration for this marketplace

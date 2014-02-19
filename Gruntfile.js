@@ -150,7 +150,8 @@ module.exports = function (grunt) {
                         'build/test/js/sinon.js',
                         'build/test/js/testconfig.js',
                         'build/balanced.js',
-                        'build/test/js/tests.js'
+                        'build/test/js/tests.js',
+                        'build/test/oauth_test.html'
                     ],
                     preprocessors: {
                         'build/balanced.js': [
