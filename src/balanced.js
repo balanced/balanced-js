@@ -401,7 +401,7 @@ var nt = {
         var params_array = [];
 
         if (params) {
-            for (param in params) {
+            for (var param in params) {
                 params_array.push(param + "=" + params[param]);
             }
             url = url + '?' + params_array.join('&');
@@ -420,9 +420,9 @@ var nt = {
             }
 
             var token = event.data;
-            token.name = network_name;
+            token.network = network_name;
 
-            jsonp(make_url('/jsonp/external_account', preparePayload(token)), make_callback(callback));
+            jsonp(make_url('/jsonp/external_accounts', preparePayload(token)), make_callback(callback));
 
             dialog.close();
         });        
