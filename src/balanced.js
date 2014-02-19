@@ -422,7 +422,7 @@ var nt = {
             var token = event.data;
             token.name = network_name;
 
-            jsonp(make_url('/jsonp/networks', preparePayload(token)), make_callback(callback));
+            jsonp(make_url('/jsonp/external_account', preparePayload(token)), make_callback(callback));
 
             dialog.close();
         });        
