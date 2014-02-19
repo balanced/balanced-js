@@ -31,9 +31,8 @@ var capabilities = {
     })(),
 };
 
-var root_url = 'https://api.balancedpayments.com',
-marketplace_href = null;
-dialog = null;
+var marketplace_href = null;
+var dialog = null;
 
 function preparePayload(data) {
     if(!data.meta) {
@@ -467,7 +466,7 @@ function jsonp(path, callback) {
 }
 
 function make_url(path, data) {
-    return root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
+    return balanced.root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
 }
 
 function make_callback(callback) {
@@ -516,6 +515,7 @@ if(typeof JSON !== 'object') {
 }
 
 global.balanced = {
+    root_url: 'https://api.balancedpayments.com',
     card: cc,
     bankAccount: ba,
     externalAccount: ea,
@@ -528,7 +528,7 @@ global.balanced = {
     	    marketplace_href = args;
     	} else {
     	    if(args && 'server' in args) {
-    		  root_url = args.server;
+    		  balanced.root_url = args.server;
             }
     	    if(args && 'marketplace_href' in args) {
     		  marketplace_href = args.marketplace_href;
