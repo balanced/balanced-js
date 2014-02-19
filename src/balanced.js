@@ -31,6 +31,8 @@ var capabilities = {
     })(),
 };
 
+var marketplace_href = null;
+var dialog = null;
 
 function preparePayload(data) {
     if(!data.meta) {
@@ -384,7 +386,65 @@ var ba = {
     }
 };
 
-var root_url = 'https://api.balancedpayments.com';
+var ea = {
+    networks: {
+	// TODO: this is currently hard coded
+	// using balanced.configure('/marketplace/MPasdfasdf') will
+	// get the right configs in the future
+        'coinbase': {
+            url: 'https://coinbase.com/oauth/authorize',
+            params: {
+                response_type: 'code',
+                client_id: '050f4c85231a51c147a3fb011e012755d81cdb499cc50b5354b7bcdf9bf805ad',
+                redirect_uri: 'https://js.balancedpayments.com/callback.html'
+            }
+        }
+    },
+    network_name: null,
+    callback: null,
+    create: function(network_name, callback) {
+        var network = ea.networks[network_name];
+        var url = network.url;
+        var params = network.params;
+        var params_array = [];
+
+        ea.network_name = network_name;
+        ea.callback = callback;
+
+        if (params) {
+            for (var param in params) {
+                params_array.push(param + "=" + params[param]);
+            }
+            url = url + '?' + params_array.join('&');
+        }
+
+        dialog = window.open(url, "", "top=" + (screen.height/2 - 275) + ", left=" + (screen.width/2 - 250) + ", width=500, height=550");
+    },
+    configure: function () {
+	/*jsonp(make_url('/jsonp/'+marketplace_href+'/configs', {}), function (json) {
+	    ea.network = json;
+	});*/
+    }
+};
+
+addEvent(window, 'message', function (event) {
+    if(event.origin !== "https://js.balancedpayments.com") {
+        return;
+    }
+
+    if (!event.data) {
+        noDataError(ea.callback);
+        return;
+    }
+
+    var data = event.data;
+    data.token = event.data.token || event.data.code;
+    data.network = ea.network_name;
+    jsonp(make_url('/jsonp/external_accounts', data), make_callback(ea.callback));
+
+    dialog.close();
+});
+
 function jsonp(path, callback) {
     var funct = "balanced_jsonp_"+Math.random().toString().substr(2);
     var tag = document.createElement('script');
@@ -406,7 +466,7 @@ function jsonp(path, callback) {
 }
 
 function make_url(path, data) {
-    return root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
+    return balanced.root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
 }
 
 function make_callback(callback) {
@@ -454,13 +514,29 @@ if(typeof JSON !== 'object') {
     jsonp('https://js.balancedpayments.com/json2.js');
 }
 
-global.balanced = {
+var balanced = global.balanced = {
+    root_url: 'https://api.balancedpayments.com',
     card: cc,
     bankAccount: ba,
+    externalAccount: ea,
     emailAddress: em,
+    jsonp: jsonp,
     init: function (args) {
-        if(args && 'server' in args) {
-            root_url = args.server;
-        }
+    	if(typeof args == 'string') {
+            // going to be the marketplace href to configure the tokens
+    	    // not required if only tokenizing cards and bank accounts
+    	    marketplace_href = args;
+    	} else {
+    	    if(args && 'server' in args) {
+    		  balanced.root_url = args.server;
+            }
+    	    if(args && 'marketplace_href' in args) {
+    		  marketplace_href = args.marketplace_href;
+    	    }
+    	    if(args && 'networks' in args) {
+    		  ea.networks = args.networks;
+    	    }
+    	}
+    	// TODO: make it grab the configuration for this marketplace
     }
 };

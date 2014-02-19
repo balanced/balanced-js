@@ -1,0 +1,13 @@
+/*
+It said that it understood html in the docs, but is parsing this as javascript
+Cool, story I <3 docs
+<script type="text/javascript">
+  var param_str = window.location.href.split('?')[1].split('&');
+  var token = {};
+  param_str.forEach(function (param) {
+    var p = param.split('=');
+    token[p[0]] = p[1];
+  });
+  location.href = token.redirect_uri + '?code=BALANCED_FIXTURE_TEST_CODE';
+</script>
+*/
