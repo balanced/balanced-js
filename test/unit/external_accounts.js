@@ -19,45 +19,30 @@ module('balanced.js.externalAccount', {
     }
 });
 
-asyncTest('create', function (assert) {
-    function callback (response) {
-        start();
-    }
-    var spy = sinon.spy(balanced, 'jsonp');
-    balanced.init();
-    balanced.externalAccount.create('test', callback);
-
-    //simulate window event
-    window.postMessage({'foo': 'bar'}, "*");
-    assert.ok(spy.calledOnce);
-    assert.ok(spy.getCall(0).args[0], 'https://api.balancedpayments.com/jsonp/external_accounts', 'Test #1');
-});
-
-
 asyncTest('create opens window', function (assert) {
-    var spy = sinon.spy(window, 'open');
-    balanced.externalAccount.create('test', function (){});
-    var expectedArgs = [
-        "/base/build/test/oauth_test.html?response_type=code&client_id=TEST_CLIENT_ID&redirect_uri=https://js.balancedpayments.com/callback.html",
-        "",
-        "top=445, left=1030, width=500, height=550"
-    ];
-    assert.ok(spy.calledOnce);
-    assert.ok(spy.getCall(0).args, expectedArgs);
+    var p = "/base/build/test/oauth_test.html?response_type=code&client_id=TEST_CLIENT_ID&redirect_uri=https://js.balancedpayments.com/callback.html";
+    var open = window.open;
+    window.open = function (path) {
+        window.open = open;
+        assert.equal(path, p);
+        start()
+    };
+    balanced.externalAccount.create('test', function () {});
 });
 
-asyncTest('callback handles data', function (assert) {
-    var spy = sinon.spy(balanced, 'jsonp');
-    var event = {
-        origin: 'https://js.balancedpayments.com',
-        data: {
-            asd: 123
-        }
-    }
-    balanced.externalAccount.callback(event);
-    var expectedArgs = [
-        // todo
-    ];
-    assert.ok(spy.calledOnce);
-    assert.ok(spy.getCall(0).args, expectedArgs);
+asyncTest('Test redirect and postMessage works', function (assert) {
+    balanced.externalAccount.create('test', function (result) {
+        assert.ok('external_accounts' in result, 'Have external_accounts');
+        assert.ok(result.external_accounts[0].href, 'There is a href on this external account');
+        start();
+    });
+});
+
+asyncTest('Check for events getting sent', function (assert) {
+    window.addEventListener("message", function (event) {
+        assert.equal(event.origin, "https://js.balancedpayments.com");
+        assert.equal(event.data.code, "BALANCED_FIXTURE_TEST_CODE");
+        start();
+    });
+    balanced.externalAccount.create('test', function (){});
 });

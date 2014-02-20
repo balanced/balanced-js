@@ -9,6 +9,9 @@
 		token[p[0]] = p[1];
 	});
 	window.opener.postMessage(token, "*");
+	setTimeout(function() {
+	  window.close();
+	}, 2500);
 </script>
 </body>
 </html>
