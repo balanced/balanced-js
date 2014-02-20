@@ -1,8 +1,8 @@
 module('balanced.js.externalAccount', {
     setup: function () {
-        // overwrite the network settings for testing
+        // overwrite the providers settings for testing
         balanced.init({
-            networks: {
+            providers: {
                 'test': {
                     url: '/base/build/test/oauth_test.html',
                     params: {
@@ -25,10 +25,11 @@ asyncTest('create opens window', function (assert) {
     window.open = function (path) {
         window.open = open;
         assert.equal(path, p);
-        start()
+        start();
     };
     balanced.externalAccount.create('test', function () {});
 });
+
 
 asyncTest('Test redirect and postMessage works', function (assert) {
     balanced.externalAccount.create('test', function (result) {
@@ -38,11 +39,17 @@ asyncTest('Test redirect and postMessage works', function (assert) {
     });
 });
 
+
 asyncTest('Check for events getting sent', function (assert) {
+    var got_message = false;
     window.addEventListener("message", function (event) {
+        if(got_message) return;
         assert.equal(event.origin, "https://js.balancedpayments.com");
         assert.equal(event.data.code, "BALANCED_FIXTURE_TEST_CODE");
+        got_message = true;
+    });
+    balanced.externalAccount.create('test', function (){
+        assert.ok(got_message, 'Got the postMessage event');
         start();
     });
-    balanced.externalAccount.create('test', function (){});
 });

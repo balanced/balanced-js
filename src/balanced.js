@@ -387,7 +387,7 @@ var ba = {
 };
 
 var ea = {
-    networks: {
+    providers: {
   // TODO: this is currently hard coded
   // using balanced.configure('/marketplace/MPasdfasdf') will
   // get the right configs in the future
@@ -400,15 +400,15 @@ var ea = {
             }
         }
     },
-    network_name: null,
+    provider_name: null,
     callback: null,
-    create: function(network_name, callback) {
-        var network = ea.networks[network_name];
-        var url = network.url;
-        var params = network.params;
+    create: function(provider_name, callback) {
+        var provider = ea.providers[provider_name];
+        var url = provider.url;
+        var params = provider.params;
         var params_array = [];
 
-        ea.network_name = network_name;
+        ea.provider_name = provider_name;
         ea.callback = callback;
 
         if (params) {
@@ -439,7 +439,8 @@ addEvent(window, 'message', function (event) {
 
     var data = event.data;
     data.token = event.data.token || event.data.code;
-    data.network = ea.network_name;
+    data.provider = ea.provider_name;
+		console.log(data);
     jsonp(make_url('/jsonp/external_accounts', data), make_callback(ea.callback));
 
     if(dialog)
@@ -532,8 +533,8 @@ var balanced = global.balanced = {
             if(args && 'marketplace_href' in args) {
                 marketplace_href = args.marketplace_href;
             }
-            if(args && 'networks' in args) {
-                ea.networks = args.networks;
+            if(args && 'providers' in args) {
+                ea.providers = args.providers;
             }
         }
         // TODO: make it grab the configuration for this marketplace
