@@ -1,4 +1,4 @@
-module('balanced.js.cards', {
+module('balanced.js.track', {
     setup: function () {
     },
 

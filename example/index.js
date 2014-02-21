@@ -38,6 +38,16 @@ $(document).ready(function () {
         });
     });
 
+    $('#cb-submit').click(function (e) {
+        e.preventDefault();
+        
+        $('#response').hide();
+        
+        balanced.externalAccount.create('coinbase', function(response) {
+            console.log(response);
+        });
+    });
+
     $('#populate').click(function () {
         $(this).attr("disabled", true);
 

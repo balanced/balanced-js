@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="text/javascript">
+	var param_str = window.location.href.split('?')[1].split('&');
+	var token = {};
+	param_str.forEach(function (param) {
+		var p = param.split('=');
+		token[p[0]] = p[1];
+	});
+	window.opener.postMessage(token, "*");
+	setTimeout(function() {
+	  window.close();
+	}, 2500);
+</script>
+</body>
+</html>

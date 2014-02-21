@@ -108,6 +108,16 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            callback: {
+                files: [
+                    {
+                        cwd: 'src/',
+                        expand: true,
+                        src: ['callback.html'],
+                        dest: 'build'
+                    }
+                ]
+            },
             test: {
                 files: [
                     {
@@ -140,7 +150,8 @@ module.exports = function (grunt) {
                         'build/test/js/sinon.js',
                         'build/test/js/testconfig.js',
                         'build/balanced.js',
-                        'build/test/js/tests.js'
+                        'build/test/js/tests.js',
+                        'build/test/oauth_test.html'
                     ],
                     preprocessors: {
                         'build/balanced.js': [
@@ -185,13 +196,17 @@ module.exports = function (grunt) {
                         src: 'build/balanced.js',
                         dest: '<%= pkg.version %>/balanced.js'
                     },
-		    {
+                    {
                         src: 'build/balanced.min.js',
                         dest: '<%= pkg.version %>/balanced.min.js'
                     },
                     {
                         src: 'build/json2.js',
                         dest: '<%= pkg.version %>/json2.js'
+                    },
+                    {
+                        src: 'build/callback.html',
+                        dest: '<%= pkg.version %>/callback.html'
                     }
                 ]
             },
@@ -212,6 +227,10 @@ module.exports = function (grunt) {
                     {
                         src: 'build/json2.js',
                         dest: '<%= pkg.versionMajor %>/json2.js'
+                    },
+                    {
+                        src: 'build/callback.html',
+                        dest: '<%= pkg.versionMajor %>/callback.html'
                     }
                 ]
             },
@@ -225,13 +244,17 @@ module.exports = function (grunt) {
                         src: 'build/balanced.js',
                         dest: 'balanced.js'
                     },
-		    {
+                    {
                         src: 'build/balanced.min.js',
                         dest: 'balanced.min.js'
                     },
                     {
                         src: 'build/json2.js',
                         dest: 'json2.js'
+                    },
+                    {
+                        src: 'build/callback.html',
+                        dest: 'callback.html'
                     }
                 ]
             }
@@ -260,7 +283,7 @@ module.exports = function (grunt) {
 
     // Build tasks
     grunt.registerTask('default', 'uglify');
-    grunt.registerTask('build', 'default');
+    grunt.registerTask('build', ['default', 'copy:callback']);
 
     // Clean tasks
     grunt.renameTask('clean', 'purge');
