@@ -440,7 +440,7 @@ addEvent(window, 'message', function (event) {
     var data = event.data;
     data.token = event.data.token || event.data.code;
     data.provider = ea.provider_name;
-		console.log(data);
+
     jsonp(make_url('/jsonp/external_accounts', data), make_callback(ea.callback));
 
     if(dialog)
