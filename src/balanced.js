@@ -418,7 +418,7 @@ var ea = {
             url = url + '?' + params_array.join('&');
         }
 
-        dialog = window.open(url, "", "top=" + (screen.height/2 - 275) + ", left=" + (screen.width/2 - 250) + ", width=500, height=550");
+        dialog = window.open(url, "", "top=" + (window.outerHeight/2 - 275) + ", left=" + (window.outerWidth/2 - 250) + ", width=500, height=550");
     },
     configure: function () {
   /*jsonp(make_url('/jsonp/'+marketplace_href+'/configs', {}), function (json) {
