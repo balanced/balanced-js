@@ -44,7 +44,8 @@ $(document).ready(function () {
         $('#response').hide();
         
         balanced.externalAccount.create('coinbase', function(response) {
-            console.log(response);
+            $('#response .panel-body pre').html(JSON.stringify(response, false, 4));
+            $('#response').slideDown(300);
         });
     });
 
