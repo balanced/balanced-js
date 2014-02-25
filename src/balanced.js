@@ -396,7 +396,8 @@ var ea = {
             params: {
                 response_type: 'code',
                 client_id: '050f4c85231a51c147a3fb011e012755d81cdb499cc50b5354b7bcdf9bf805ad',
-                redirect_uri: 'https://js.balancedpayments.com/callback.html'
+                redirect_uri: 'https://js.balancedpayments.com/callback.html',
+                scope: 'send'
             }
         }
     },
