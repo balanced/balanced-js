@@ -171,7 +171,7 @@ function noDataError(callback, message) {
         throw m;
     } else {
         callback({
-            errors: {
+            errors: [{
                 description: m,
                 status: "Bad Request",
                 category_code: "request",
@@ -179,7 +179,7 @@ function noDataError(callback, message) {
                 status_code: 400,
                 category_type: "request",
                 extras: {}
-            }
+            }]
         });
     }
 }
@@ -482,15 +482,16 @@ function make_callback(callback) {
 
         if(!data || !data.status) {
             callback({
-                description: "Unable to connect to the balanced servers",
-                status: "Internal Server Error",
-                category_code: "server-error",
-                additional: null,
-                status_code: 500,
-                category_type: "server-error",
-                extras: {}
+                errors: [{
+                    description: "Unable to connect to the balanced servers",
+                    status: "Internal Server Error",
+                    category_code: "server-error",
+                    additional: null,
+                    status_code: 500,
+                    category_type: "server-error",
+                    extras: {}
+                }]
             });
-
             return;
         }
 
