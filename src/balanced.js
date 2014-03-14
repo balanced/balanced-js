@@ -490,7 +490,8 @@ function make_callback(callback) {
                     status_code: 500,
                     category_type: "server-error",
                     extras: {}
-                }]
+                }],
+                status_code: 500
             });
             return;
         }
