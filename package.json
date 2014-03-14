@@ -10,6 +10,7 @@
         "test": "grunt test"
     },
     "devDependencies": {
+        "karma": "~0.10.0",
         "grunt": "0.4.1",
         "grunt-cli": "0.1.9",
         "grunt-karma": "~0.6.2",
