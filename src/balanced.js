@@ -469,7 +469,7 @@ function jsonp(path, callback) {
 }
 
 function make_url(path, data) {
-    return root_url + path + "?callback={callback}&data="+encodeURI(JSON.stringify(data));
+    return root_url + path + "?callback={callback}&data=" + encodeURIComponent(JSON.stringify(data));
 }
 
 function make_callback(callback) {

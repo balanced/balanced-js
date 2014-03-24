@@ -587,3 +587,18 @@ asyncTest('create', 6, function(assert) {
         balanced.card.create(tests[i], callback);
     }
 });
+
+asyncTest('pass_address', function (assert) {
+    balanced.card.create({
+        'number': '4111111111111111',
+        'expiration_year': '3000',
+        'expiration_month': '12',
+        'address': {
+            'line1': '#123'
+        }
+    }, function (result) {
+        assert.equal(result.status_code, 201);
+        start();
+
+    });
+});
