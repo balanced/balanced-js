@@ -602,3 +602,15 @@ asyncTest('pass_address', function (assert) {
 
     });
 });
+
+asyncTest('error', function(assert) {
+    balanced.card.create({
+        'number': '4111111111111112',
+        'expiration_year': '3000',
+        'expiration_month': 12
+    }, function (result) {
+        assert.equal(result.status_code, 400);
+        assert.ok(result.errors[0].description.indexOf('not a valid credit card number') != -1)
+        start();
+    })
+});

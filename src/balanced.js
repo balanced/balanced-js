@@ -179,7 +179,8 @@ function noDataError(callback, message) {
                 status_code: 400,
                 category_type: "request",
                 extras: {}
-            }]
+            }],
+            status_code: 400
         });
     }
 }
@@ -286,7 +287,8 @@ var cc = {
 
         if (!isEmpty(errors)) {
             callback({
-                errors: errors
+                errors: errors,
+                status_code: 400
             });
         } else {
             jsonp(make_url('/jsonp/cards', preparePayload(data)), make_callback(callback));
@@ -375,7 +377,8 @@ var ba = {
 
         if (!isEmpty(errors)) {
             callback({
-                errors: errors
+                errors: errors,
+                status_code: 400
             });
         } else {
             if ('type' in data && !'account_type' in data) {
