@@ -365,7 +365,7 @@ var ba = {
         if (!type) {
             return true;
         }
-        return ba.types.indexOf(type) >= 0;
+        return !!/savings|checking/.exec(type);
     },
     create:function (data, callback) {
         if (!data) {
