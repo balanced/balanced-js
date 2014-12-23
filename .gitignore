@@ -1,8 +1,8 @@
 node_modules/
 .idea
 *.log
-build/
 report/
 .DS_Store
 *iml
 *~
+/build/test
