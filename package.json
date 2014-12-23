@@ -5,7 +5,7 @@
     "description": "Tokenization of credit cards and bank accounts",
     "repository": "git@github.com:balanced/balanced-js.git",
     "author": "Balanced <dev@balancedpayments.com>",
-    "main": "Gruntfile.js",
+    "main": "build/balanced.js",
     "scripts": {
         "test": "grunt test"
     },
