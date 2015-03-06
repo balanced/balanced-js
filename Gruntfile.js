@@ -9,7 +9,8 @@ module.exports = function (grunt) {
         uglify: {
             js: {
                 options: {
-                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// https://github.com/balanced/balanced-js\n////\n\n',
+                    banner: '/* @license <%= pkg.licenseMagnet %> <%= pkg.license %> */\n\n////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// @source: https://github.com/balanced/balanced-js\n////\n\n',
+                    footer: '\n\n/* @license-end */',
                     mangle: false,
                     beautify: true,
                     compress: false,
@@ -23,7 +24,8 @@ module.exports = function (grunt) {
             },
             js_min: {
                 options: {
-                    banner: '////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// https://github.com/balanced/balanced-js\n////\n\n',
+                    banner: '/* @license <%= pkg.licenseMagnet %> <%= pkg.license %> */\n\n////\n// <%= pkg.name %>\n// version: <%= pkg.version %>\n// built: <%= grunt.template.today("yyyy-mm-dd") %>\n// @source: https://github.com/balanced/balanced-js\n////\n\n',
+                    footer: '\n\n/* @license-end */',
                     mangle: true,
                     beautify: false,
                     compress: true,

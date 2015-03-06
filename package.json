@@ -5,6 +5,8 @@
     "description": "Tokenization of credit cards and bank accounts",
     "repository": "git@github.com:balanced/balanced-js.git",
     "author": "Balanced <dev@balancedpayments.com>",
+    "license" : "MIT",
+    "licenseMagnet" : "magnet:?xt=urn:btih:5305d91886084f776adcf57509a648432709a7c7&dn=x11.txt",
     "main": "Gruntfile.js",
     "scripts": {
         "test": "grunt test"
