@@ -135,9 +135,10 @@ function buildErrorObject(key, message) {
 }
 
 function validateData (requiredKeys, data, errors) {
-    for (var i = 0; i < requiredKeys.length; i++) {
-        var key = requiredKeys[i];
-        if (!data || !(key in data) || !data[key]) {
+    var i, key;
+    for (i = 0; i < requiredKeys.length; i++) {
+        key = requiredKeys[i];
+        if (!(key in data) || !data[key]) {
             errors.push(buildErrorObject(key, 'Invalid field [' + key + '] - Missing field \"' + key + '\"'));
         }
     }
@@ -145,6 +146,10 @@ function validateData (requiredKeys, data, errors) {
 
 // validation stuff copied out of the old balanced.js
 function validate(details, requiredKeys, validationMethod) {
+    if(typeof details !== 'object') {
+        throw new Error('Parameter must be an object, you passed in a ' + typeof details + '.');
+    }
+
     var errors = [];
     validateData(requiredKeys, details, errors);
     var additionalErrors = validationMethod(details);
@@ -168,7 +173,7 @@ function noDataError(callback, message) {
     var m = (message) ? message : 'No data supplied';
 
     if (!callback) {
-        throw m;
+        throw new Error('Missing required callback function parameter.');
     } else {
         callback({
             errors: [{
@@ -278,7 +283,7 @@ var cc = {
         return errors;
     },
     create:function (data, callback) {
-        if (!data) {
+        if (!data || !callback) {
             noDataError(callback);
             return;
         }
@@ -354,7 +359,7 @@ var ba = {
         return ba.isRoutingNumberValid(routingNumber);
     },
     lookupRoutingNumber:function (routingNumber, callback) {
-        if (!routingNumber) {
+        if (!routingNumber || !callback) {
             noDataError(callback);
             return;
         }
@@ -368,7 +373,7 @@ var ba = {
         return !!/savings|checking/.exec(type);
     },
     create:function (data, callback) {
-        if (!data) {
+        if (!data || !callback) {
             noDataError(callback);
             return;
         }
